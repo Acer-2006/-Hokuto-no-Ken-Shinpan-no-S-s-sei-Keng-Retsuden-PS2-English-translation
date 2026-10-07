@@ -1,0 +1,56 @@
+# ---------------------------------------------------------------
+# NEVER commit game data. Disc images, archives and anything
+# extracted from the PS2 or Dreamcast discs stay on your machine.
+# ---------------------------------------------------------------
+
+# Disc images and dumps
+*.iso
+*.bin
+*.BIN
+*.cue
+*.gdi
+*.cdi
+*.chd
+*.raw
+*.img
+*.mdf
+*.mds
+*.nrg
+*.elf
+*.ELF
+SLPM_*
+SLPS_*
+
+# Archives (the original zip/7z, split parts, etc.)
+*.zip
+*.7z
+*.rar
+*.tgz
+*.tar
+*.gz
+*.[0-9][0-9][0-9]
+
+# Game file formats from this game
+*.PVR
+*.pvr
+*.tm2
+*.TM2
+*.afs
+*.AFS
+
+# Working folders for extracted game data and script dumps
+work/
+extracted/
+dumps/
+dc/
+ps2/
+
+# Patch build output (the .xdelta patch itself goes in releases, not git)
+build/
+*.xdelta
+
+# Python / OS junk
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
