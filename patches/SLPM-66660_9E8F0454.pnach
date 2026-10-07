@@ -1,0 +1,18 @@
+gametitle=Hokuto no Ken: Shinpan no Sousousei Kengo Retsuden [SLPM-66660] (NTSC-J)
+
+// The PS2 port still contains the arcade's overseas (English) code paths.
+// One function at 001B4190 asks "is this the overseas version?" and is
+// checked in 39 places. On PS2 it always answers no. These test patches
+// make it answer yes. Enable only ONE of the two.
+
+[Test A - Full overseas mode]
+author=Acer-2006
+description=Turns on every English path from the arcade (39 places: win quotes, menus, title text and more). Most complete, but anything the PS2 version dropped may show up broken.
+patch=1,EE,001b4190,word,03e00008
+patch=1,EE,001b4194,word,24020001
+
+[Test B - English win quotes only]
+author=Acer-2006
+description=Only switches the after-fight win quotes to the arcade English. Safer fallback if Test A breaks something.
+patch=1,EE,001ac03c,word,24020001
+patch=1,EE,001acb7c,word,24020001
