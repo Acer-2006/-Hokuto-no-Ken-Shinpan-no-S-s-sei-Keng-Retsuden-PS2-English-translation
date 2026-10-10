@@ -1,0 +1,19 @@
+character	id	en_name	meaning	notes
+KENSHIRO	KEN01	GANZAN RYOUZANHA	Rock-Mountain Twin Slash Wave	
+KENSHIRO	KEN02	URAKEN	Backfist	
+KENSHIRO	KEN03	HOKUTO RYUUGEKIKO	Dragon Strikes Tiger	
+KENSHIRO	KEN04	TOUKI	Battle Aura	
+KENSHIRO	KEN05	HIKOU: SEIEIKOU	Pressure Point: Seieikou	Point that makes any touch agonizing
+KENSHIRO	KEN06	HOKUTO HIEIKEN	Flying Guard Fist	
+KENSHIRO	KEN07	TENHA NO KAMAE	Heaven-Breaking Stance	
+KENSHIRO	KEN08	HOKUTO UJOUMOUSHOUHA (LIGHT)	Merciful Soaring Strike	Spelling matches the arcade's own English
+KENSHIRO	KEN09	HOKUTO UJOUMOUSHOUHA (LIGHT, AIR)		
+KENSHIRO	KEN10	HOKUTO UJOUMOUSHOUHA (HEAVY)		
+KENSHIRO	KEN11	HOKUTO UJOUMOUSHOUHA (HEAVY, AIR)		
+KENSHIRO	KEN12	HOKUTO JARAIKOU	Serpent Thunder Bite	
+KENSHIRO	KEN13	HOKUTO SHICHISHI KIHEIZAN	Seven Deaths Cavalry Slash	
+KENSHIRO	KEN14	MUSOU TENSEI READY	Formless Rebirth (can activate)	FATAL 1 star
+KENSHIRO	KEN15	MUSOU TENSEI	Formless Rebirth	Input note: "As a high/mid hit lands: ->  OR  As a low hit lands: down"
+KENSHIRO	KEN16	HOKUTO ZANKAIKEN	Lingering Regret Fist	FATAL 2 stars. Arcade spelling
+KENSHIRO	KEN17	TENHAKASSATSU	Heaven-Breaking Life-or-Death Strike	FATAL 1 star. Arcade spelling
+KENSHIRO	KEN18	HOKUTO HYAKURETSUKEN	Hundred Crack Fist	DEADLY
