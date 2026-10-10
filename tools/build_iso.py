@@ -5,7 +5,8 @@ usage: build_iso.py [--unlock-history] original.iso out.iso [translation_dir]
 Copies the ISO, then patches it in place (file sizes and positions don't
 change):
   - SLPM_666.60: overseas (English) mode on, plus all translated text
-  - DATA/HK_B.BIN: letter-pair tiles added to the blank part of the font
+  - DATA/HK_B.BIN: letter-pair tiles added to the blank part of the font,
+    and English versions of Japanese text drawn in textures (images.py)
 
 --unlock-history (for testing) treats every HISTORY mission as cleared, so
 all quote rows and gallery pictures can be viewed without playing them.
@@ -13,12 +14,13 @@ all quote rows and gallery pictures can be viewed without playing them.
 Nothing from the game is stored in this repository; the script only works
 on the ISO you give it, and checks that it's an unmodified dump first.
 """
-import hashlib, os, shutil, struct, subprocess, sys
+import hashlib, mmap, os, shutil, struct, subprocess, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from iso_list import list_files
 from insert_text import patch_program
 from pairfont import HalfWidthFont, FONT_GLYPHS
+import images
 
 ELF = 'SLPM_666.60'
 DATA = 'DATA/HK_B.BIN'
@@ -74,6 +76,14 @@ def main():
     tiles = pairs.tiles(font)
     print(f'text: {used}/{total} string bytes, {len(pairs.codes)} letter-pair tiles')
 
+    with open(src, 'rb') as f:
+        mm = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
+        hk_b = memoryview(mm)[data_lba * 2048:data_lba * 2048 + data_size]
+        edits = [(t['data'], t['size'], new, desc) for t, new, desc in images.replacements(hk_b)]
+        del hk_b
+        mm.close()
+    print(f'images: {len(edits)} textures replaced')
+
     copy_iso(src, dst)
     with open(dst, 'r+b') as f:
         f.seek(elf_lba * 2048)
@@ -86,6 +96,10 @@ def main():
                 sys.exit(f'font tile {idx} is not blank; unexpected HK_B.BIN')
             f.seek(base + idx * 64)
             f.write(data)
+        for off, old_size, new, desc in edits:
+            assert len(new) <= old_size, desc
+            f.seek(data_lba * 2048 + off)
+            f.write(new.ljust(old_size, b'\0'))
     print(f'wrote {dst}')
 
 

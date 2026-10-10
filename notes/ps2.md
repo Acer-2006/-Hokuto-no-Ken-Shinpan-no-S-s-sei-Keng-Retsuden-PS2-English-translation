@@ -107,7 +107,23 @@ Same 18 tables as the arcade. Each: tag, count, (group offset, size), then
 A resource = FARC header (`GIRP`/`GIRT`/`GIRA` = offset/size of the PALH,
 TEXH and ANMH parts) followed by the data blob.
 
-## Texture format (TEXH), partly decoded
+## Texture format (TEXH), decoded
+
+Fully decoded in `tools/texh.py` (decoder and encoder; see its docstring for
+the bitstream). The decompressor in the game was found by its output: the
+HISTORY background's 128×512 pages sit decompressed in RAM (texture table at
+`0x322B80`, 64 bytes per texture: `+0x1C` source, `+0x28` buffer), which gave
+an exact compressed/decompressed pair to work from. Checked against 443 of
+the 447 textures resident in RAM (the other 4 have stale buffers).
+
+Things that matter when re-encoding:
+- zero runs: `b + 2` for b < 0x80, `((b & 0x7F) + 16) * 8` otherwise
+- the game doesn't clear its buffer, so every byte must be encoded, and
+  copies must not reach back before the start
+- `tools/images.py` makes the English replacements at build time and checks
+  each one fits in the original's space
+
+### Old notes
 
 ```
 TEXH  u32 size  u16 ver(4)  u16 flags  u32 count  u32 pixel_size  u32 pixel_start  ...
