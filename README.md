@@ -3,3 +3,6 @@ Hokuto no Ken: Shinpan no Sōsōsei Kengō Retsuden English translation, aims to
 
 <img width="265" height="376" alt="image" src="https://github.com/user-attachments/assets/a12d91c0-cce2-44cd-9cf8-a91af6edbebb" />
 
+
+<img width="960" height="240" alt="image" src="https://github.com/user-attachments/assets/468a6471-0cac-461f-9aa2-fd549fdea043" />
+
