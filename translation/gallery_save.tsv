@@ -113,3 +113,67 @@ EP126	0x1fad10	Episode 8: Flames of Obsession
 EP127	0x1fad30	Episode 1: A Cry from the Heart
 EP128	0x1fad50	Episode 6: A Fateful Reunion!
 EP129	0x1fad70	Episode 7: The Raging Killer
+EP130	0x1fad90	Episode 10: When the Great Star Falls
+EP131	0x1fadb0	Episode 30: You're a Woman!
+EP132	0x1fadd0	Episode 35: The Fist That Splits Rock!
+EP133	0x1fadf0	Episode 36: Who Gets the Last Laugh!?
+EP134	0x1fae20	Episode 38: Eyes Full of Malice!
+EP135	0x1fae50	Episode 39: Setting Out for a Death Match!
+EP136	0x1fae80	Episode 40: A Young Sacrifice!!
+EP137	0x1faea0	Episode 44: Four Blows of Fury!!
+EP138	0x1faed0	Episode 60: Hokuto Ujo Ken!
+EP139	0x1faef0	Episode 65: The Evil Star Explodes!
+EP140	0x1faf10	Episode 66: The Invisible Demon Fist!
+EP141	0x1faf40	Episode 67: A Warning from the Dead!
+EP142	0x1faf60	Episode 70: Like Still Water
+EP143	0x1faf80	Episode 71: Break the Pressure Point's Hold!
+EP144	0x1fafb0	Episode 72: An Endless Death Match!
+EP145	0x1fafd0	Episode 75: The Wicked Crest!
+EP146	0x1fb000	Episode 77: The Brink of Despair!!
+EP147	0x1fb020	Episode 78: Red Fangs of the Star of Allure!
+EP148	0x1fb050	Episode 80: When the Six Nanto Stars Fall
+EP149	0x1fb080	Episode 81: The Waterbird Does Not Fly!
+EP150	0x1fb0b0	Episode 82: Farewell Forever!
+EP151	0x1fb0d0	Episode 86: The Emperor of Nanto!
+EP152	0x1fb0f0	Episode 87: The Emperor's Smile!
+EP153	0x1fb110	Episode 92: The Road of Destiny!
+EP154	0x1fb130	Episode 93: A Merciless Miracle!
+EP155	0x1fb150	Episode 96: The Fist That Shatters Heaven!!
+EP156	0x1fb170	Episode 97: Fallen Through a Love Too Deep!
+EP157	0x1fb1a0	Episode 99: The Heart He Couldn't Cast Away
+EP158	0x1fb1c0	Episode 101: A Distant Vow!
+EP159	0x1fb1e0	Episode 102: The Blood Awakens!
+EP160	0x1fb210	Episode 103: The Final Farewell!
+EP161	0x1fb230	Episode 104: Bonds So Fierce, So Sad!
+EP162	0x1fb260	Episode 105: My Star Is the Wolf Star!
+EP163	0x1fb290	Episode 124: A Torrent of Blood!
+EP164	0x1fb2b0	Episode 125: The Trap of Fate!
+EP165	0x1fb2d0	Episode 131: A Heart Dyed in Blood!
+EP166	0x1fb300	Episode 133: The Crossroads of Destiny
+EP167	0x1fb320	Episode 134: Strike Through the Battle Aura!
+EP168	0x1fb350	Episode 136: Farewell, My Rival and Friend!
+SW007	0x1fb800	checkin' stuff out~\n
+SW008	0x1fb820	there's no memory card!\n
+SW009	0x1fb840	it's not formatted!\n
+SW010	0x1fb860	there's no save data!\n
+SW011	0x1fb880	is that thing a memory card?\n
+SW012	0x1fb8a0	um, some kinda weird error!\n
+SW013	0x1fb8c0	loadiiing~\n
+SW014	0x1fb8e0	oopsie, loading didn't work~\n
+SW015	0x1fb910	the data might be all busted...\n
+SW016	0x1fb940	all loaded up!\n
+SW017	0x1fba30	there's no memory card in there!\n
+SW018	0x1fba50	is the thing in there a memory card?\n
+SW019	0x1fba80	i dunno what this error is!\n
+SW020	0x1fbaa0	this memory card isn't formatted\n
+SW021	0x1fbad0	formattiiing~\n
+SW022	0x1fbaf0	formatting didn't work~\n
+SW023	0x1fbb10	can i make some new save data?\n
+SW024	0x1fbb40	can i write over your save data?\n
+SW025	0x1fbb68	saviiing~\n
+SW026	0x1fbb80	whoops, saving didn't work...\n
+SW027	0x1fbba0	there's not enough space!\n
+SW028	0x1fbbc0	all saved, no problems at all!\n
+SW029	0x1fbbf0	makin' your save data~\n
+SW030	0x1fbc10	the save data is all broken...\n
+UI001	0x1fb380	Move        Text ON/OFF             Zoom-       Zoom+     Back
