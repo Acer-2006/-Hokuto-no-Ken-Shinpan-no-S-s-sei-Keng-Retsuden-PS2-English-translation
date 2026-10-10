@@ -45,3 +45,51 @@ not a VWF.
 
 Byte-for-byte comparison with the arcade data doesn't work: the PS2 stores its
 textures in a PS2-specific layout, so every archive differs.
+
+## PS2-only text (translated in translation/)
+
+| Block | File offset | Layout |
+|-------|-------------|--------|
+| Timeline ("Kengo Retsuden") | `0x1E73E4` | 232 entries × 100 bytes: line1[48], line2[48], u32 tag. Fixed layout, so English is limited to 47 bytes per line |
+| Gallery pointer table | `0x1ECEF0` | pointers to 77 captions + 7 episode titles |
+| Save message pointer table | `0x1F9A3C` | pointers to 30 messages |
+| Gallery/episode strings | `0x1F9DD0`–`0x1FAD8C` | repacked by `tools/insert_text.py` |
+| Save message strings | `0x1F9510`–`0x1F9884`, plus slots near `0x1F99D0` | repacked |
+
+`tools/ps2_dump_text.py` dumps the Japanese (to a gitignored folder).
+`tools/insert_text.py` writes the English and makes a PCSX2 preview section.
+Strings are 4-byte aligned after repacking.
+
+Open question: the timeline/gallery menus may only draw Shift-JIS
+characters. The Japanese itself uses full-width letters ("ＫＩＮＧ"). The preview
+patch answers this.
+
+## Resource tables in HK_I.IDX
+
+Same 18 tables as the arcade. Each: tag, count, (group offset, size), then
+(offset, size) pairs pointing into HK_B.BIN.
+
+- `GIS2` (system UI): 46 resources. Data blobs at entries 0–45, their FARC
+  headers at entries 46–91. Training mode screens should be among these.
+- `GIFT` (font): FARC at `0x73C2800` + 0xC0800-byte bank at `0x73C3000`,
+  probably the Japanese font the menus use.
+- `GICP`: 73 portrait/cut-in resources.
+
+A resource = FARC header (`GIRP`/`GIRT`/`GIRA` = offset/size of the PALH,
+TEXH and ANMH parts) followed by the data blob.
+
+## Texture format (TEXH), partly decoded
+
+```
+TEXH  u32 size  u16 ver(4)  u16 flags  u32 count  u32 pixel_size  u32 pixel_start  ...
+      u32 entry_offset[count]              (relative to TEXH)
+entry: u16 flags  u16 tile_count  u16 width  u16 height  8 bytes 0
+       tile[tile_count] (32 bytes each):
+         u32 -1  u32 ?  u32 fmt(0x64821)  u32 data_off  u32 data_off  u32 data_size
+         u32 -1  u16 tile_w  u16 tile_h  u16 x0 y0 x1 y1 ...
+```
+
+Each 64×64 tile is compressed. Tile header: `u32 0x88, u16 8 (bpp), u16 w,
+u16 h, u16 w, u16 h, u16 0`, then a bitstream. The decompressor is not found
+yet. `0x25F230` only fixes up pointers when a bank is loaded, and `0x2BFA00`
+is input code, not the decompressor.

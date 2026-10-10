@@ -1,0 +1,115 @@
+id	offset	text
+SV007	0x1f9510	checkin' stuff out~\n
+SV008	0x1f9530	there's no memory card!\n
+SV009	0x1f9550	it's not formatted!\n
+SV010	0x1f9570	there's no save data!\n
+SV011	0x1f9590	is that thing a memory card?\n
+SV012	0x1f95b0	um, some kinda weird error!\n
+SV013	0x1f95d0	loadiiing~\n
+SV014	0x1f95f0	oopsie, loading didn't work~\n
+SV015	0x1f9620	the data might be all busted...\n
+SV016	0x1f9650	all loaded up!\n
+SV017	0x1f9670	there's no memory card in there!\n
+SV018	0x1f9690	is the thing in there a memory card?\n
+SV019	0x1f96c0	i dunno what this error is!\n
+SV020	0x1f96e0	this memory card isn't formatted\n
+SV021	0x1f9710	formattiiing~\n
+SV022	0x1f9730	formatting didn't work~\n
+SV023	0x1f9750	can i make some new save data?\n
+SV024	0x1f9780	can i write over your save data?\n
+SV025	0x1f97a8	saviiing~\n
+SV026	0x1f97c0	whoops, saving didn't work...\n
+SV027	0x1f97e0	there's not enough space!\n
+SV028	0x1f9800	all saved, no problems at all!\n
+SV029	0x1f9830	makin' your save data~\n
+SV030	0x1f9850	the save data is all broken...\n
+SV033	0x1f99d0	checkin' how much space there is~
+SV034	0x1f99f0	not enough free space!\n
+SV036	0x1f9ae0	hey, somebody swapped the memory card!\n
+SV037	0x1f9b10	so... can we keep playing?\n
+SV038	0x1f9b30	autosave didn't work...\n
+SV039	0x1f9b50	a memory card got plugged in!\n
+GA046	0x1f9dd0	A brutal fist that shows no mercy, even in sparring!
+GA047	0x1f9e00	At gunpoint, Jagi demands that Kenshiro step down!
+GA048	0x1f9e30	The man who drove Shin mad, the root of the tragedy!
+GA049	0x1f9e60	Hokuto and Nanto: two fists clash over Yuria!
+GA050	0x1f9e90	Kenshiro is carved with his seven scars!
+GA051	0x1f9ec0	For Bat and Lin's smiles, Kenshiro keeps on fighting!
+GA052	0x1f9f00	Shin speaks to Yuria. But this Yuria is...
+GA053	0x1f9f40	His own blood drives him into a murderous frenzy!!
+GA054	0x1f9f70	A fearsome freak body that soaks up every blow!
+GA055	0x1f9fb0	Reunited with his nemesis Shin! A fierce fight looms!
+GA056	0x1f9fd0	Flesh so thick it stops even Kenshiro's fist!
+GA057	0x1f9ff0	This is the true power of Hokuto Shinken!
+GA058	0x1fa010	Razor-sharp fists strike at Kenshiro!
+GA059	0x1fa040	Shin leaps from Southern Cross, as if to follow Yuria...
+GA060	0x1fa080	Mamiya's resolve, forged by the death of Kou!
+GA061	0x1fa0b0	For Mamiya's happiness, Rei chooses to...
+GA062	0x1fa0e0	Rei and Kenshiro: their skills are perfectly matched!
+GA063	0x1fa110	Two men forced into battle by a scheme! Who will win?!
+GA064	0x1fa150	Kenshiro's open guard leaves Rei visibly shaken!
+GA065	0x1fa180	Two all-or-nothing secret techniques collide!
+GA066	0x1fa1a0	Using Kenshiro's name, Jagi commits every atrocity!
+GA067	0x1fa1d0	Jagi... the man Kenshiro once called brother!
+GA068	0x1fa200	Jagi's twisted, seething hatred for his little brother!
+GA069	0x1fa240	Jagi throws away his own weapon... but why?!
+GA070	0x1fa280	Hokuto Shinken, paired with a deadly weapon! But...
+GA071	0x1fa2b0	Now THIS is the real Jagi!
+GA072	0x1fa2d0	Jagi's last resort: a sea of fire, fueled by gasoline!
+GA073	0x1fa310	Jagi's Nanto Seiken! Just how strong is it?
+GA074	0x1fa340	A blow to avenge his rival and friend, Shin!
+GA075	0x1fa370	Cornered, Jagi attacks with a pillar, but...
+GA076	0x1fa3a0	An iron fist of judgment, for Yuria's sake!
+GA077	0x1fa3c0	Even a touch brings agony! The horror of Seieiko!
+GA078	0x1fa3f0	Fear closes in on Jagi!
+GA079	0x1fa410	Kenshiro's furious blow!
+GA080	0x1fa430	Toki's Hokuto Shinken brings heaven at death's door!
+GA081	0x1fa460	Ken-Oh Raoh and Kokuoh: an overwhelming presence!
+GA082	0x1fa490	Ken-Oh's might swats aside even Rei's all-out attack!
+GA083	0x1fa4d0	One wound dealt to the ever-composed Raoh!
+GA084	0x1fa500	Raoh gives up his own legs to seal Toki's fist!
+GA085	0x1fa530	Toki goes all in! A blow with everything he has!
+GA086	0x1fa550	Battered all over, Ken-Oh stands on pride alone!
+GA087	0x1fa580	Mamiya's sad past: taken by Juda, her parents lost!
+GA088	0x1fa5c0	Dagar confidently challenges Kenshiro, but...
+GA089	0x1fa600	Enraged, Dagar lunges at Juda, but...
+GA090	0x1fa630	Mamiya's nightmarish reunion!
+GA091	0x1fa650	A dazzling fist that steals even Juda's soul!
+GA092	0x1fa670	Juda uses the dam to seal Nanto Suicho Ken. Pure cunning!
+GA093	0x1fa6b0	Komaku plots to poison a whole village, but...
+GA094	0x1fa6e0	Juda's keen fists corner Rei, step by step!
+GA095	0x1fa710	Decided by Rei's art, so beautiful it steals Juda's soul!
+GA096	0x1fa750	The fierce end of Juda, forever chasing Rei's shadow!
+GA097	0x1fa780	Rei's love, which saved Mamiya from her fate of death!
+GA098	0x1fa7b0	A presence that overawes all. Truly an emperor!
+GA099	0x1fa7e0	Nanto Houou Ken, unleashed without a stance!
+GA100	0x1fa810	Immune to pressure points! Souther's dreadful secret!
+GA101	0x1fa850	Toki's fist, undimmed even by sickness!
+GA102	0x1fa880	The magnificent death of Shu!
+GA103	0x1fa8a0	The Emperor takes a stance for Houou Ken's ultimate art!
+GA104	0x1fa8d0	The blow that wins a clash of ultimate arts!
+GA105	0x1fa8f0	The end of a man who threw away love to be emperor!
+GA106	0x1fa920	He slew his master, fallen through a love too deep!
+GA107	0x1fa950	A pure quest for strength: a duel for the summit!
+GA108	0x1fa980	Toki and Kenshiro: a truly even fight!
+GA109	0x1fa9b0	Two opposite fists, mirroring two different lives!
+GA110	0x1fa9e0	A killing blow, struck from a mind of pure emptiness!
+GA111	0x1faa10	Toki's death match: the Death Omen Star rises over Raoh!
+GA112	0x1faa50	A mighty fist's secret art, compressing all his power!
+GA113	0x1faa70	Toki's graceful aerial combat overwhelms even Raoh!
+GA114	0x1faaa0	A merciless, fated battle! The end has come!
+GA115	0x1faad0	Toki's resolve: a pressure point that costs his own life!
+GA116	0x1fab10	Kenshiro's legs send even a giant flying with ease!
+GA117	0x1fab40	With Muso Tensei, Kenshiro is Hokuto's strongest ever!
+GA118	0x1fab80	Raoh knows fear, yet strikes with the eldest's pride!
+GA119	0x1fabc0	Bearing sorrow, Raoh too finally masters Muso Tensei!
+GA120	0x1fac00	Both wield the ultimate art. The fight comes full circle!
+GA121	0x1fac40	One blow with everything behind it! The moment of truth!
+GA122	0x1fac70	A great star falls! The Conqueror's glorious last stand!
+EP123	0x1faca0	Episode 41: The Master's Prophecy!
+EP124	0x1facc0	Episode 42: The Merciless Law
+EP125	0x1face0	Episode 43: Through the Blood of My Rivals!
+EP126	0x1fad10	Episode 8: Flames of Obsession
+EP127	0x1fad30	Episode 1: A Cry from the Heart
+EP128	0x1fad50	Episode 6: A Fateful Reunion!
+EP129	0x1fad70	Episode 7: The Raging Killer
