@@ -4,12 +4,15 @@
 - Gallery captions, episode titles and save messages are repacked into the
   space their Japanese strings used, and every pointer to them is updated.
 
-Outputs a patched copy of the program plus a PCSX2 .pnach section with the
-changes, so the result can be previewed without rebuilding the ISO.
+Text drawn by the game's Shift-JIS renderer (timeline, gallery captions,
+episode titles) is stored as letter-pair codes (see pairfont.py), so it
+needs the matching font tiles, which build_iso.py writes into HK_B.BIN.
+Save messages are never drawn and stay plain ASCII.
 
 usage: insert_text.py SLPM_666.60 translation_dir out_elf out_pnach_section
 """
 import csv, os, struct, sys
+from pairfont import PairEncoder
 
 VA_BASE, FILE_BASE = 0x100000, 0x80          # single PT_LOAD segment
 DATA_START = 0x1C0000                         # pointer tables live after .text
@@ -28,12 +31,22 @@ def read_tsv(path):
     return [dict(zip(hdr, r + [''] * (len(hdr) - len(r)))) for r in rows[1:] if r]
 
 
-def encode(text):
-    text = text.replace('\\n', '\n')
-    bad = [c for c in text if c in '@%' or ord(c) > 126 or (ord(c) < 32 and c != '\n')]
+PAIR_IDS = ('GA', 'EP', 'UI')     # gallery_save.tsv rows drawn by the renderer
+IN_PLACE_IDS = ('UI',)            # addressed directly by code: keep their address
+
+
+def check(text, allow_newline):
+    bad = [c for c in text if c in '@%' or ord(c) > 126
+           or (ord(c) < 32 and not (allow_newline and c == '\n'))]
     if bad:
         raise ValueError(f'unsupported characters {bad!r} in {text!r}')
-    return text.encode('ascii')
+
+
+def encode(text, pairs=None):
+    """ASCII bytes, or letter-pair codes when a PairEncoder is given."""
+    text = text.replace('\\n', '\n')
+    check(text, allow_newline=pairs is None)
+    return pairs.encode(text) if pairs else text.encode('ascii')
 
 
 def trailing_controls(raw):
@@ -46,14 +59,16 @@ def trailing_controls(raw):
     return tail
 
 
-def insert_timeline(d, rows):
+def insert_timeline(d, rows, pairs=None):
     for r in rows:
         n = int(r['id'][2:])
         base = TL_START + n * TL_STRIDE
         for k, key in enumerate(('line1', 'line2')):
             fo = base + k * TL_FIELD
             orig = bytes(d[fo:fo + TL_FIELD])
-            new = encode(r[key]) + (trailing_controls(orig) if r[key] else b'')
+            new = encode(r[key], pairs)
+            if r[key] and not pairs:
+                new += trailing_controls(orig)
             if len(new) > TL_FIELD - 1:
                 raise ValueError(f"{r['id']} {key} is {len(new)} bytes (max {TL_FIELD - 1})")
             d[fo:fo + TL_FIELD] = new.ljust(TL_FIELD, b'\0')
@@ -74,7 +89,19 @@ def slots_for(orig, offsets):
     return slots
 
 
-def insert_strings(d, orig, rows):
+def insert_in_place(d, orig, rows, pairs=None):
+    for r in rows:
+        o = int(r['offset'], 16)
+        old_len = orig.index(b'\0', o) - o
+        new = encode(r['text'], pairs if r['id'][:2] in PAIR_IDS else None)
+        if len(new) > old_len:
+            raise ValueError(f"{r['id']} is {len(new)} bytes (max {old_len})")
+        d[o:o + old_len] = new.ljust(old_len, b'\0')
+
+
+def insert_strings(d, orig, rows, pairs=None):
+    insert_in_place(d, orig, [r for r in rows if r['id'][:2] in IN_PLACE_IDS], pairs)
+    rows = [r for r in rows if r['id'][:2] not in IN_PLACE_IDS]
     offsets = [int(r['offset'], 16) for r in rows]
     slots = slots_for(orig, offsets)
     # where each original string is pointed to from (data area only)
@@ -95,7 +122,9 @@ def insert_strings(d, orig, rows):
         else:
             free.append([s, e])
     # first-fit decreasing packing
-    items = sorted(((encode(r['text']) + b'\0', int(r['offset'], 16), r['id']) for r in rows),
+    def enc(r):
+        return encode(r['text'], pairs if r['id'][:2] in PAIR_IDS else None)
+    items = sorted(((enc(r) + b'\0', int(r['offset'], 16), r['id']) for r in rows),
                    key=lambda x: -len(x[0]))
     placed = {}
     for blob, old, sid in items:
@@ -125,17 +154,27 @@ def pnach_section(orig, d, title, description):
     return '\n'.join(lines) + '\n', len(lines) - 3
 
 
+def patch_program(orig, tdir, use_pairs=True):
+    """Returns (patched program, PairEncoder or None, (used, total) string bytes)."""
+    d = bytearray(orig)
+    pairs = PairEncoder() if use_pairs else None
+    insert_timeline(d, read_tsv(os.path.join(tdir, 'timeline.tsv')), pairs)
+    stats = insert_strings(d, orig, read_tsv(os.path.join(tdir, 'gallery_save.tsv')), pairs)
+    return d, pairs, stats
+
+
 def main():
     elf, tdir, out_elf, out_pnach = sys.argv[1:5]
     orig = open(elf, 'rb').read()
-    d = bytearray(orig)
-    insert_timeline(d, read_tsv(os.path.join(tdir, 'timeline.tsv')))
-    used, total = insert_strings(d, orig, read_tsv(os.path.join(tdir, 'gallery_save.tsv')))
+    d, pairs, (used, total) = patch_program(orig, tdir)
     open(out_elf, 'wb').write(d)
-    text, n = pnach_section(orig, d, 'English text preview',
-                            'Timeline, gallery and save message translations (work in progress).')
+    text, n = pnach_section(orig, d, 'English text (needs the patched font)',
+                            'Timeline, gallery and save message translations. The text is stored '
+                            'as letter pairs, so it only shows up correctly on a disc built '
+                            'with tools/build_iso.py.')
     open(out_pnach, 'w', encoding='ascii').write(text)
-    print(f'strings: {used}/{total} bytes used; pnach writes: {n}')
+    print(f'strings: {used}/{total} bytes used; letter pairs: {len(pairs.codes)}; '
+          f'pnach writes: {n}')
 
 
 if __name__ == '__main__':
