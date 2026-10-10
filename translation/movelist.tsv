@@ -32,3 +32,45 @@ RAOH	RAO12	MUSOU TENSEI	Formless Rebirth	Same input note as Kenshiro's
 RAOH	RAO13	HIKOU: SHINKETSUSHUU	Pressure Point: New Blood Sorrow	FATAL 1 star. The point that kills in three days
 RAOH	RAO14	TENSHOU HONRETSU	Heavenly General's Fury	FATAL 1 star
 RAOH	RAO15	HOKUTO METTENPA	Heaven-Destroying Grasp	DEADLY
+TOKI	TOK01	CHUUDAN KOUGEKI	Mid Attack	
+TOKI	TOK02	GEDAN-YOKE KOUGEKI	Low-Dodging Attack	
+TOKI	TOK03	JOUDAN-YOKE KOUGEKI	High-Dodging Attack	
+TOKI	TOK04	MAAI NAGE	Spacing Throw	Input note: "Near opponent"
+TOKI	TOK05	HOKUTO MUSOU RYUUBU	Formless Flowing Dance	Follow-up
+TOKI	TOK06	TOUKEI KOHOU	Battle-Force Breathing	
+TOKI	TOK07	TENSHOU HYAKURETSUKEN	Heaven-Soaring Hundred Fists	Aerial
+TOKI	TOK08	HOKUTO SHOURINKYAKU	Soaring Wheel Kick	Aerial
+TOKI	TOK09	HOKUTO MUSOU RYUUBU (FORWARD-UP)		
+TOKI	TOK10	HOKUTO MUSOU RYUUBU (FORWARD)		
+TOKI	TOK11	HOKUTO MUSOU RYUUBU (UP)		
+TOKI	TOK12	HOKUTO MUSOU RYUUBU (DOWN)		Aerial
+TOKI	TOK13	HOKUTO RYUUKOJIN	Flowing Arc Formation	
+TOKI	TOK14	HOKUTO HARYUUSHOU	Stream-Breaking Palm	Input note: "Time it with a high attack"
+TOKI	TOK15	HOKUTO MUSOU RYUUBU	Formless Flowing Dance	Follow-up
+TOKI	TOK16	HOKUTO SUIBUGEKI	Drunken Dance Strike	Input note: "Time it with a low attack"
+TOKI	TOK17	HOKUTO MUSOU RYUUBU	Formless Flowing Dance	Follow-up
+TOKI	TOK18	HOKUTO UJOU DANJINKEN	Merciful Swift-Severing Fist	FATAL 1 star
+TOKI	TOK19	HOKUTO SAIHAKEN	Supremacy-Shattering Fist	FATAL 1 star
+TOKI	TOK20	HIKOU: SEKKATSUKOU (SELF)	Pressure Point: Life Spark, on yourself	FATAL 1 star
+TOKI	TOK21	HIKOU: SEKKATSUKOU (OPPONENT)	Pressure Point: Life Spark, on the opponent	FATAL 1 star
+TOKI	TOK22	HOKUTO UJOU HAGANKEN	Merciful Face-Breaking Fist	DEADLY
+JAGI	JAG01	SPECIAL MOVE 1		
+JAGI	JAG02	SPECIAL MOVE 2		
+JAGI	JAG03	WHAT A FINE LITTLE BROTHER~!!		Named after the line
+JAGI	JAG04	S-STOP!! P-PLEASE!!	Fake begging	Named after the line
+JAGI	JAG05	FUKUMI-BARI	Hidden Mouth Needles	Follow-up
+JAGI	JAG06	SHOTGUN (FORWARD)		
+JAGI	JAG07	SHOTGUN (UP-ANGLE)		
+JAGI	JAG08	HOKUTO SENJUSATSU	Thousand-Hands Kill	Aerial
+JAGI	JAG09	NANTO JAROUGEKI	Evil Wolf Strike	
+JAGI	JAG10	NANTO JAROUGEKI (UNBLOCKABLE)		
+JAGI	JAG11	GASOLINE		
+JAGI	JAG12	MATCH		
+JAGI	JAG13	FOOL! WINNING IS ALL THAT MATTERS!		Input note: "While knocked down near the shotgun"
+JAGI	JAG14	THIS IS AN AGE WHEN DEVILS SMILE	Same line as timeline TL005	FATAL 1 star. Input note: "Near Shin"
+JAGI	JAG15	GO ON... SAY MY NAME!	Same line as timeline TL072	FATAL 2 stars. Input note: "Near opponent"
+JAGI	JAG16	SHOTGUN		Follow-up
+JAGI	JAG17	YOUR READS ARE STILL TOO NAIVE!		FATAL 1 star
+JAGI	JAG18	HOKUTO RAKANGEKI	Arhat Strike	FATAL 1 star
+JAGI	JAG19	FUKUMI-BARI	Hidden Mouth Needles	Follow-up (P, K or HP)
+JAGI	JAG20	HEH HEH... I'VE BEEN WAITING FOR THIS	Same line as timeline TL080	DEADLY
