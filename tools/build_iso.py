@@ -76,13 +76,15 @@ def main():
     tiles = pairs.tiles(font)
     print(f'text: {used}/{total} string bytes, {len(pairs.codes)} letter-pair tiles')
 
+    import texh
+    texh.CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(dst)), '.tile-cache')
     with open(src, 'rb') as f:
         mm = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
         hk_b = memoryview(mm)[data_lba * 2048:data_lba * 2048 + data_size]
-        edits = [(t['data'], t['size'], new, desc) for t, new, desc in images.replacements(hk_b)]
+        edits = list(images.replacements(hk_b))
         del hk_b
         mm.close()
-    print(f'images: {len(edits)} textures replaced')
+    print(f'images: {len(edits)} patches')
 
     copy_iso(src, dst)
     with open(dst, 'r+b') as f:
@@ -96,10 +98,10 @@ def main():
                 sys.exit(f'font tile {idx} is not blank; unexpected HK_B.BIN')
             f.seek(base + idx * 64)
             f.write(data)
-        for off, old_size, new, desc in edits:
-            assert len(new) <= old_size, desc
+        for off, data, desc in edits:
+            assert off + len(data) <= data_size, desc
             f.seek(data_lba * 2048 + off)
-            f.write(new.ljust(old_size, b'\0'))
+            f.write(data)
     print(f'wrote {dst}')
 
 

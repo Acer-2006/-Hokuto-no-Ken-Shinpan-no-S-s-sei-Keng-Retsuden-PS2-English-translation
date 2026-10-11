@@ -1,4 +1,4 @@
-"""Read the game's compressed textures (TEXH banks in HK_B.BIN).
+"""Read and write the game's compressed textures (TEXH banks in HK_B.BIN).
 
 A graphics resource in HK_B.BIN is a FARC header (0x800 bytes) followed by a
 blob holding PALH (palettes), TEXH (textures) and ANMH (animations). The
@@ -10,65 +10,102 @@ u32 -1, u32 ?, then 32-byte tile records:
   the TEXH start), u32 data offset again, u32 compressed size, u32 -1
   (texture id at run time), u16 tile w, u16 tile h, s16 x0, y0, x1, y1.
 
-Tile data: 16-byte header (u16 flag bytes, u16 has-palette, u16 bpp, u16 w,
-u16 h, u16 sw, u16 sh, u16), then, when has-palette is 1 (formats 0x66...),
-the tile's own uncompressed palette: 16 (4bpp) or 256 (8bpp) RGBA colours,
-alpha 0x80 = opaque, 8bpp palettes in the GS's swizzled order. Then the
-flag bit stream and the byte stream. Flags are read as
-little-endian u32 words, most significant bit first:
+Tile data: 16-byte header (u16 a, u16 has-palette, u16 bpp, u16 w, u16 h,
+u16 w, u16 b, u16 mode), then, when has-palette is 1, the tile's own
+uncompressed palette: 16 (4bpp) or 256 (8bpp) RGBA colours, alpha 0x80 =
+opaque, 8bpp palettes in the GS's swizzled order. The streams follow
+(their offsets are relative to the end of the palette). Bit streams are read
+as little-endian u32 words, most significant bit first; byte streams as
+little-endian u32 words too, so every stream is 4-byte aligned.
+
+Normal tiles (decoder at 0x290880): flag bits at 0, bytes at `a`.
   0    literal byte
   10   copy: 2 bytes, distance = b0 + 1, length = b1 + 3
+       (b0 = b1 = 0 ends the stream; that is the only stop condition)
   110  short copy: 1 byte, distance = (b >> 6) + 1, length = (b & 63) + 2
   111  zero run: 1 byte, length = b + 2 (b < 0x80) or ((b & 0x7f) + 16) * 8
-Copies reaching back before the start of the output read zeros here (the
-game reads whatever its buffer held, so the encoder never does that). Output
-stops at sw*sh*bpp/8 bytes (the second width/height in the header; a few
-tiles store only their top rows). The game doesn't clear its buffer first,
-so a new tile must encode every byte, trailing zeros included.
+Mode 3 tiles (decoder at 0x290600, images with at most 32 colours, like the
+command lists): flag bits at 0, 4-bit literals at `b`, bytes at `a`.
+  0 x  literal: next nibble (low nibble first) | x << 4
+  10   copy, as above (including the end marker)
+  11   short copy, as above
+A value of 1 in `a` means the pixels are stored uncompressed.
+
+The game doesn't clear its buffer and copies may reach back before the start
+into whatever was there, so encoded tiles cover every byte, never reach back
+before the start, and always end with the end marker.
 """
 import struct
 
 import numpy as np
 
 
-def decompress(tile):
-    """(raw palette bytes or b'', pixel bytes, bpp, w, h)"""
-    flen, has_pal, bpp, w, h, sw, sh = struct.unpack_from('<HHHHHHH', tile, 0)
-    pal_size = (4 << bpp) if has_pal & 1 else 0
-    palette = bytes(tile[16:16 + pal_size])
-    size = w * h * bpp // 8
-    stored = min(size, sw * sh * bpp // 8)
-    flags = tile[16 + pal_size:16 + pal_size + flen]
-    data = tile[16 + pal_size + flen:]
-    words = struct.unpack_from(f'<{flen // 4}I', flags)
-    out = bytearray()
-    bp = dp = 0
+class _Bits:
+    def __init__(self, raw):
+        n = len(raw) // 4
+        self.words = struct.unpack_from(f'<{n}I', raw) if n else ()
+        self.pos = 0
 
-    def bit():
-        nonlocal bp
-        b = (words[bp >> 5] >> (31 - (bp & 31))) & 1
-        bp += 1
+    def __call__(self):
+        w = self.words[self.pos >> 5]
+        b = (w >> (31 - (self.pos & 31))) & 1
+        self.pos += 1
         return b
 
+
+def decompress(tile):
+    """(raw palette bytes or b'', pixel bytes, bpp, w, h)"""
+    a, has_pal, bpp, w, h, _, b, mode = struct.unpack_from('<8H', tile, 0)
+    pal_size = (4 << bpp) if has_pal & 1 else 0
+    palette = bytes(tile[16:16 + pal_size])
+    base = 16 + pal_size
+    size = w * h * bpp // 8
+    if a == 1 and len(tile) >= base + size:          # stored uncompressed
+        return palette, bytes(tile[base:base + size]), bpp, w, h
+    bit = _Bits(tile[base:base + (b if mode == 3 else a)])
+    data = tile[base + a:]
+    nibbles = tile[base + b:base + a] if mode == 3 else b''
+    out = bytearray()
+    dp = npos = 0
+    limit = 4 * size + 4096
+
     def copy(dist, ln):
-        for _ in range(ln):   # reaching back before the start reads zeros
+        for _ in range(ln):
             out.append(out[-dist] if dist <= len(out) else 0)
 
-    while len(out) < stored and dp < len(data) and bp < flen * 8:
-        if not bit():
-            out.append(data[dp])
-            dp += 1
-        elif not bit():
-            copy(data[dp] + 1, data[dp + 1] + 3)
+    try:
+        while len(out) < limit:
+            if mode == 3:
+                if not bit():
+                    v = nibbles[npos >> 1] >> (4 * (npos & 1)) & 15
+                    npos += 1
+                    out.append(v | (bit() << 4))
+                    continue
+                if bit():
+                    x = data[dp]
+                    dp += 1
+                    copy((x >> 6) + 1, (x & 63) + 2)
+                    continue
+            else:
+                if not bit():
+                    out.append(data[dp])
+                    dp += 1
+                    continue
+                if bit():
+                    x = data[dp]
+                    dp += 1
+                    if bit():
+                        out.extend(bytes(x + 2 if x < 0x80 else ((x & 0x7f) + 16) * 8))
+                    else:
+                        copy((x >> 6) + 1, (x & 63) + 2)
+                    continue
+            d0, d1 = data[dp], data[dp + 1]
             dp += 2
-        elif not bit():
-            b = data[dp]
-            dp += 1
-            copy((b >> 6) + 1, (b & 63) + 2)
-        else:
-            b = data[dp]
-            dp += 1
-            out.extend(bytes(b + 2 if b < 0x80 else ((b & 0x7f) + 16) * 8))
+            if d0 == 0 and d1 == 0:
+                break
+            copy(d0 + 1, d1 + 3)
+    except IndexError:
+        pass
     out = bytes(out[:size]) + bytes(max(0, size - len(out)))
     return palette, out, bpp, w, h
 
@@ -153,6 +190,8 @@ def render(buf, entry, palette=None):
     return img
 
 
+# --- encoder ---------------------------------------------------------------
+
 def _run_lengths(eq):
     """For each i, how many consecutive True values start at i."""
     n = len(eq)
@@ -162,69 +201,112 @@ def _run_lengths(eq):
     return (nxt - idx)[:n]
 
 
-def compress_stream(data):
-    """Encode bytes with the game's LZ scheme. Returns (flag bytes, byte stream).
-    Optimal parse over literal / zero run / short copy / long copy."""
-    data = np.frombuffer(bytes(data), dtype=np.uint8)
+def _pack_bits(bits):
+    bits = bits + [0] * (-len(bits) % 32)
+    words = [int(''.join(map(str, bits[k:k + 32])), 2) for k in range(0, len(bits), 32)]
+    return struct.pack(f'<{len(words)}I', *words)
+
+
+def _parse(data, mode3):
+    """Optimal parse (token costs in bits). Returns [(token, position)]."""
     n = len(data)
-    padded = np.concatenate([np.zeros(256, dtype=np.uint8), data])
     match = {}
     for d in range(1, 257):
-        match[d] = _run_lengths(padded[256:] == padded[256 - d:256 - d + n])
+        eq = np.zeros(n, dtype=bool)
+        if d < n:
+            eq[d:] = data[d:] == data[:-d]
+        match[d] = _run_lengths(eq)
     zero = _run_lengths(data == 0)
-    INF = 1 << 60
-    cost = [INF] * (n + 1)
+    lit_cost = 6 if mode3 else 9
+    short_cost = 10 if mode3 else 11
+    cost = [0] * (n + 1)
     choice = [None] * (n + 1)
-    cost[n] = 0
     for i in range(n - 1, -1, -1):
-        best, pick = cost[i + 1] + 9, ('L',)
-        zl = int(zero[i])
-        if zl >= 2:
-            for ln in (min(zl, 129), min(zl, 1144) // 8 * 8):
-                if ln >= 2 and (ln <= 129 or ln >= 128):
+        best, pick = cost[i + 1] + lit_cost, ('L', 1)
+        if not mode3 and zero[i] >= 2:
+            zl = int(zero[i])
+            for ln in {min(zl, 129), min(zl, 1144) // 8 * 8}:
+                if ln >= 2:
                     c = cost[i + ln] + 11
                     if c < best:
                         best, pick = c, ('Z', ln)
-        for d in range(1, min(4, i) + 1):    # never reach back before the start
-            l = min(int(match[d][i]), 65)
-            if l >= 2:
-                c = cost[i + l] + 11
+        for d in range(1, min(4, i) + 1):          # never reach back before the start
+            ln = min(int(match[d][i]), 65)
+            if ln >= 2:
+                c = cost[i + ln] + short_cost
                 if c < best:
-                    best, pick = c, ('S', d, l)
+                    best, pick = c, ('S', ln, d)
         for d in range(1, min(256, i) + 1):
-            l = min(int(match[d][i]), 258)
-            if l >= 3:
-                c = cost[i + l] + 18
+            ln = min(int(match[d][i]), 258)
+            if ln >= 3 and not (d == 1 and ln == 3):   # (1, 3) is the end marker
+                c = cost[i + ln] + 18
                 if c < best:
-                    best, pick = c, ('M', d, l)
+                    best, pick = c, ('M', ln, d)
         cost[i], choice[i] = best, pick
-    bits, out = [], bytearray()
-    i = 0
+    tokens, i = [], 0
     while i < n:
-        p = choice[i]
-        if p[0] == 'L':
-            bits.append(0); out.append(int(data[i])); i += 1
-        elif p[0] == 'M':
-            bits += [1, 0]; out += bytes([p[1] - 1, p[2] - 3]); i += p[2]
-        elif p[0] == 'S':
-            bits += [1, 1, 0]; out.append(((p[1] - 1) << 6) | (p[2] - 2)); i += p[2]
-        else:
-            ln = p[1]
-            bits += [1, 1, 1]
-            out.append(ln - 2 if ln <= 129 else 0x80 | (ln // 8 - 16))
-            i += ln
-    while len(bits) % 32:
-        bits.append(0)
-    words = [int(''.join(map(str, bits[k:k + 32])), 2) for k in range(0, len(bits), 32)]
-    return struct.pack(f'<{len(words)}I', *words), bytes(out)
+        tokens.append((choice[i], i))
+        i += choice[i][1]
+    return tokens
 
 
-def compress(pixels, bpp, palette=b''):
-    """Build tile data (header, palette, flags, bytes) from a (h, w) index array."""
+CACHE_DIR = None    # set to a folder to keep compressed tiles between builds
+
+
+def compress(pixels, bpp, palette=b'', mode3=False):
+    """Build tile data from a (h, w) index array. mode3 needs values < 32."""
+    if CACHE_DIR:
+        import hashlib, os
+        key = hashlib.sha1(pixels.astype(np.uint8).tobytes() + bytes([bpp, mode3])
+                           + struct.pack('<2H', *pixels.shape) + palette).hexdigest()
+        path = os.path.join(CACHE_DIR, key)
+        if os.path.exists(path):
+            with open(path, 'rb') as f:
+                return f.read()
+        tile = _compress(pixels, bpp, palette, mode3)
+        os.makedirs(CACHE_DIR, exist_ok=True)
+        with open(path, 'wb') as f:
+            f.write(tile)
+        return tile
+    return _compress(pixels, bpp, palette, mode3)
+
+
+def _compress(pixels, bpp, palette, mode3):
     h, w = pixels.shape
     a = pixels.astype(np.uint8).reshape(-1)
-    raw = (a[0::2] | (a[1::2] << 4)).tobytes() if bpp == 4 else a.tobytes()
-    flags, data = compress_stream(raw)
-    head = struct.pack('<8H', len(flags), 1 if palette else 0, bpp, w, h, w, h, len(flags))
-    tile = head + palette + flags + data
+    raw = (a[0::2] | (a[1::2] << 4)) if bpp == 4 else a
+    if mode3:
+        assert raw.max() < 32, 'mode 3 holds at most 32 colours'
+    bits, out, nib = [], bytearray(), []
+    for (kind, ln, *d), i in _parse(raw, mode3):
+        if kind == 'L':
+            if mode3:
+                bits += [0, int(raw[i]) >> 4]
+                nib.append(int(raw[i]) & 15)
+            else:
+                bits.append(0)
+                out.append(int(raw[i]))
+        elif kind == 'M':
+            bits += [1, 0]
+            out += bytes([d[0] - 1, ln - 3])
+        elif kind == 'S':
+            bits += [1, 1] if mode3 else [1, 1, 0]
+            out.append(((d[0] - 1) << 6) | (ln - 2))
+        else:
+            bits += [1, 1, 1]
+            out.append(ln - 2 if ln <= 129 else 0x80 | (ln // 8 - 16))
+    bits += [1, 0]
+    out += b'\0\0'                                  # end marker
+    flags = _pack_bits(bits)
+    data = bytes(out) + bytes(-len(out) % 4)
+    if mode3:
+        nib += [0] * (-len(nib) % 8)
+        nibbles = bytes(nib[k] | (nib[k + 1] << 4) for k in range(0, len(nib), 2))
+        head = struct.pack('<8H', len(flags) + len(nibbles), 1 if palette else 0, bpp,
+                           w, h, w, len(flags), 3)
+        body = flags + nibbles + data
+    else:
+        head = struct.pack('<8H', len(flags), 1 if palette else 0, bpp, w, h, w, h, len(flags))
+        body = flags + data
+    tile = head + palette + body
     return tile + bytes(-len(tile) % 16)
