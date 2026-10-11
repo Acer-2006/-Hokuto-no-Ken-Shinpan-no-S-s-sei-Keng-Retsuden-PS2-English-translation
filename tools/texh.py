@@ -318,6 +318,7 @@ def repack(texh_off, tiles, datas, rects=None, what=''):
     order = sorted(range(len(tiles)), key=lambda i: tiles[i]['data'])
     start = tiles[order[0]]['data']
     end = max(t['data'] + t['size'] for t in tiles)
+    assert sum(t['size'] for t in tiles) == end - start, f'{what}: tiles are not contiguous'
     blob = bytearray()
     for i in order:
         rel = start + len(blob) - texh_off

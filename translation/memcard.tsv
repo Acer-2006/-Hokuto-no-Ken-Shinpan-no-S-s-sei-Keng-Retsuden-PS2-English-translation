@@ -1,0 +1,39 @@
+ID	Screens	English
+YES	B0 S0 O61	Yes
+NO	B1 S1 O62	No
+CHECK	B2 S2 O63 O73	Checking MEMORY CARD slot 1. / Please do not remove or insert the memory card (8MB) (for PlayStation 2).
+NOCARD_START	B3	There is no memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1. / At least 44KB of free space is needed to save this game's system data. / Start the game anyway?
+UNFORMATTED_START	B4	The memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1 is not formatted. / Loading will be canceled and the game will start.
+NOCARD_NOLOAD	B5	There is no memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1. / At least 44KB of free space is needed to save this game's system data. / Loading will be canceled and the game will start.
+CHECK_FAILED	B6	Could not check the memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1.
+LOADING	B7 O69	Loading system data from the memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1... / Please do not remove the memory card.
+LOAD_FAILED	B8 O70	Could not load from the memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1. / Cancel loading?
+LOAD_CORRUPT_CONTINUE	B9	Could not load from the memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1. / The system data may be corrupted. / Cancel loading and continue the game?
+LOADED	B10 O72	System data has been loaded from the memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1.
+NOSPACE_START	B11	The memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1 does not have enough free space. / At least 44KB of free space is needed to save this game's system data. / Start the game anyway?
+NOCARD_SAVE_CONTINUE	S3	There is no memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1. / At least 44KB of free space is needed to save this game's system data. / Cancel saving and continue the game?
+CORRUPT_OVERWRITE	S4 O75	The system data on the memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1 may be corrupted. / Overwrite the system data?
+CHECK_FAILED_SAVE	S5	Could not check the memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1. / Cancel saving and continue the game?
+UNFORMATTED_SAVE	S6	The memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1 is not formatted. / Cancel saving and continue the game?
+UNFORMATTED_FORMAT	S7 O77	The memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1 is not formatted. / Format this memory card (8MB) (for PlayStation 2)?
+FORMATTING	S8 O78	Formatting the memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1... / Please do not remove the memory card.
+FORMAT_FAILED_SAVE	S9 S16	Could not format the memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1. / Cancel saving and continue the game?
+SAVING	S10 O82	Saving system data to the memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1... / Please do not remove the memory card.
+SAVE_CORRUPT_CONTINUE	S11 S14	Could not save to the memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1. / The system data may be corrupted. / Cancel saving and continue the game?
+NOSPACE_SAVE_CONTINUE	S12	The memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1 does not have enough free space. / At least 44KB of free space is needed to save this game's system data. / Cancel saving and continue the game?
+SAVED	S13 O85	System data has been saved to the memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1.
+CARD_CHANGED	S15	The memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1 has been changed. / Continue saving?
+SAVE_CONFIRM	S17 O80	Save to the memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1?
+EXISTS_OVERWRITE	S18 O81	System data already exists on the memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1. / Overwrite the system data?
+CARD_INSERTED	S19	A memory card (8MB) (for PlayStation 2) has been inserted in MEMORY CARD slot 1. / Continue saving?
+SAVE_CONTINUE	S20	Cancel saving and continue the game?
+NOCARD_LOAD_CANCEL	O64 O67	There is no memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1. / At least 44KB of free space is needed to save this game's system data. / Loading will be canceled.
+UNFORMATTED_LOAD_CANCEL	O65	The memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1 is not formatted. / Loading will be canceled.
+NODATA_LOAD_CANCEL	O66	There is no system data on the memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1. / Loading will be canceled.
+ERROR_LOAD_CANCEL	O68	An unknown error occurred with the memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1. / Loading will be canceled.
+LOAD_CORRUPT_CANCEL	O71	Could not load from the memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1. / The system data may be corrupted. / Cancel loading?
+NOCARD_SAVE_CANCEL	O74	There is no memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1. / At least 44KB of free space is needed to save this game's system data. / Saving will be canceled.
+ERROR_SAVE_CANCEL	O76	An unknown error occurred with the memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1. / Saving will be canceled.
+FORMAT_FAILED_SAVE_CANCEL	O79	Could not format the memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1. / Saving will be canceled.
+SAVE_CORRUPT_CANCEL	O83	Could not save to the memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1. / The system data may be corrupted. / Cancel saving?
+NOSPACE_SAVE_CANCEL	O84	The memory card (8MB) (for PlayStation 2) in MEMORY CARD slot 1 does not have enough free space. / At least 44KB of free space is needed to save this game's system data. / Cancel saving?

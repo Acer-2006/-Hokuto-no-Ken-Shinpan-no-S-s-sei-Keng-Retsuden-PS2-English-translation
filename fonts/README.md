@@ -9,6 +9,7 @@ same result whatever is installed on the computer.
 | `NotoSerifCJKjp-SemiBold-Latin.otf` | Noto Serif CJK JP SemiBold 2.002 | SIL OFL 1.1 (`OFL.txt`) |
 | `NotoSerifCJKjp-Bold-Latin.otf` | Noto Serif CJK JP Bold 2.002 | SIL OFL 1.1 (`OFL.txt`) |
 | `NotoSerifCJKjp-Black-Latin.otf` | Noto Serif CJK JP Black 2.002 | SIL OFL 1.1 (`OFL.txt`) |
+| `LiberationSerif-Regular.ttf` | Liberation Serif 2.1.5, unmodified | SIL OFL 1.1 (`OFL.txt`) |
 | `DejaVuSansMono.ttf` | DejaVu Sans Mono 2.37, unmodified | Bitstream Vera licence (`LICENSE-DejaVu.txt`) |
 
 The Noto files are subsets holding only the Latin characters (U+0020-007E,
@@ -21,4 +22,5 @@ pyftsubset NotoSerifCJK-Bold.ttc --font-number=0 \
   --output-file=NotoSerifCJKjp-Bold-Latin.otf
 ```
 
-Source: https://github.com/notofonts/noto-cjk and https://dejavu-fonts.github.io/
+Sources: https://github.com/notofonts/noto-cjk, https://github.com/liberationfonts
+and https://dejavu-fonts.github.io/

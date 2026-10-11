@@ -12,6 +12,7 @@ import numpy as np
 from PIL import Image, ImageDraw
 
 import fonts
+import memcard
 import notices
 import smallfont
 import texh
@@ -124,6 +125,7 @@ def replacements(buf):
                                   '..', 'translation', 'movelist.tsv'))
     yield from command_list_replacements(buf, names)
     yield from notices.replacements(buf)
+    yield from memcard.replacements(buf)
 
 
 # --- training mode command lists ---------------------------------------------

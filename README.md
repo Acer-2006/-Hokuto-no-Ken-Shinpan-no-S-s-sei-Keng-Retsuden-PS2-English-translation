@@ -21,8 +21,8 @@ patches the copy: English (overseas) mode on, the translated HISTORY
 timeline, gallery captions and episode titles, and the extra font tiles
 they need. Japanese drawn into pictures is redrawn in English from your
 disc's own graphics: the HISTORY chapter labels, the training-mode command
-lists and the HISTORY unlock notices. Nothing from the game is included in
-this repository.
+lists, the HISTORY unlock notices, the memory card messages and the sound
+test names. Nothing from the game is included in this repository.
 
 The first build takes a few minutes (the pictures are re-compressed); the
 results are cached in a `.tile-cache` folder next to the output, so later

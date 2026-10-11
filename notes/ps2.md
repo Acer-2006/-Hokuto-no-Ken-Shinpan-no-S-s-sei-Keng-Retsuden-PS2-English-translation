@@ -144,6 +144,26 @@ Coming in from the main menu, state 2 (`0x2A8BE0`) goes straight to 6; for
 testing, changing its `li v1, 6` at `0x2A8C0C` to 5 or 4 shows a notice every
 time HISTORY is entered.
 
+## Memory card messages
+
+Pictures, not text: 1-bit white on black (indices 0/15 of a 16-grey
+palette; palette 1 greys everything out for the unselected Yes/No). Three
+resources:
+
+| TEXH | Entries | Shown |
+|---|---|---|
+| `0x5EA6000` | 0–1 Yes/No, 2–11 messages | start-up check and load |
+| `0x5EB2800` | 0–1 Yes/No, 2–20 messages | saving |
+| `0x5E3E000` | 61–62 Yes/No, 63–85 messages; 93–123 SOUND SETTINGS names | OPTION |
+
+Only tiles holding text exist (black is see-through on the OPTION screen),
+so `tools/memcard.py` moves the same tiles to wherever the English text is.
+The SOUND SETTINGS names (BGM and PLAY VOICE) are centred by the game on
+the entry's width.
+
+The arcade's English stage names are in the program at `0x1F0490`
+(`LIN'S VILLAGE` … `PYRAMID`); the sound test names follow them.
+
 ### Old notes
 
 ```

@@ -14,6 +14,7 @@ SERIF_SEMIBOLD = os.path.join(DIR, 'NotoSerifCJKjp-SemiBold-Latin.otf')
 SERIF_BOLD = os.path.join(DIR, 'NotoSerifCJKjp-Bold-Latin.otf')
 SERIF_BLACK = os.path.join(DIR, 'NotoSerifCJKjp-Black-Latin.otf')
 MONO = os.path.join(DIR, 'DejaVuSansMono.ttf')
+SERIF_TEXT = os.path.join(DIR, 'LiberationSerif-Regular.ttf')
 
 
 def load(path, size):
