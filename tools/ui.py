@@ -28,7 +28,7 @@ COPYRIGHT = 5
 COPYRIGHT_LINES = [            # the Japanese notice's three lines, in English
     '\u00a9 Buronson & Tetsuo Hara/NSP 1983, Approved No. GA-307',
     '\u00a9 SEGA',
-    'Original materials provided by Pony Canyon',
+    'Original recording provided by Pony Canyon',
 ]
 COPYRIGHT_SIZE, COPYRIGHT_PITCH = 17, 21    # three lines in one row of tiles
 COPYRIGHT_OUTLINE, COPYRIGHT_TOP = 1, 15    # palette: 1 black ... 15 white
