@@ -23,9 +23,13 @@ they need, and the arcade staff credits with their typos fixed. Japanese
 drawn into pictures is redrawn in English from your disc's own graphics:
 the HISTORY chapter labels, the training-mode command lists, the HISTORY
 unlock notices, the memory card messages, the sound test names, the
-staff roll (names romanized, see `translation/staffroll.tsv`) and the
-title screen's copyright notice; the arcade's "THOUTHER" becomes
-"SOUTHER" everywhere. Nothing from the game is included in this
+staff roll (names romanized, see `translation/staffroll.tsv`), the
+title screen's copyright notice, the move names and shouts that flash up
+in fights (Kenshiro's and Toki's finishers, Heart's "IT HUUURTS!!",
+Jagi's "Say my name!") and the ending's calligraphy and narration; the
+arcade's "THOUTHER" becomes "SOUTHER" everywhere. The win quotes no
+longer lose their punctuation and some letters (a bug in the arcade's
+English results screen). Nothing from the game is included in this
 repository.
 
 The first build takes a few minutes (the pictures are re-compressed); the

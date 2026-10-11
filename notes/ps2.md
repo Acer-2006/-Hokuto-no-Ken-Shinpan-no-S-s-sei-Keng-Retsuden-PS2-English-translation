@@ -222,3 +222,57 @@ decorations (128x128 8-bit tiles, also 128x32, 8x256 and 128x8 4-bit ones).
 lays the tiles out again (128x64 tiles where 64x64 ones are too few), then
 packs the bank again, re-encoding other pictures of the bank if the
 English takes more room.
+
+## THOUTHER
+
+The arcade's English spells サウザー "THOUTHER" in eleven pictures (player
+select, results, VS, profile, opening card, ranking, continue, training;
+see `tools/souther.py`) and on the VS screen, whose big names are spelled
+letter by letter (TEXH `0x4DFA800` entry 40 holds K E N S H I R O D M Y G J
+U T A) from a table of 10-byte names at `0x2CBDF0` (`KENSHIRO`, `RAOH`,
+... `THOUTHER` at `0x2CBE36`). Two more name tables (`0x2F42A8`,
+`0x2F8678`) only seem to be used by debug output.
+
+## Win quotes
+
+The results screen (`0x1AF420`) draws the arcade's English win quote (50
+lines, 5 per character, pointers at `0x2D77F0`) with an 8x16 font: entry 0
+of the results resource (TEXH `0x4D86800`), one 128x128 4-bit tile with
+ASCII `0x20`-`0x7F` in 16 columns and a dot for `0xA5` at (119, 79). Each
+letter's texture rectangle starts at (column * 8 - 1, row * 16 - 1), so the
+first row (space to `/`, i.e. `' , . - ! "`) and the first column (`0 @ P `
+p`) start at -1 and are not drawn: the arcade's quotes have always come out
+without their punctuation and P's. `tools/quotes.py` moves the font one
+pixel right and down in its tile and removes the -1 (the four `lui` at
+`0x1AF580`, `0x1AF584`, `0x1AF5BC`, `0x1AF5F0`).
+
+## Japanese in fight and ending graphics
+
+Found by going through the banks of each character and the ending; the
+English is drawn by `tools/callouts.py` in each picture's own colours:
+
+| TEXH | entry | Japanese | English |
+|---|---|---|---|
+| `0x3E0800` | 2 | 北斗百裂拳 (Kenshiro's DEADLY banner) | HOKUTO HYAKURETSUKEN |
+| `0x3B0000` | 6-10 | 北 斗 残 悔 拳 (FATAL KO stamps) | HOKU TO ZAN KAI KEN |
+| `0x1093800` | 9 | 北斗有情断迅拳 (Toki) | HOKUTO UJOU DANJINKEN |
+| `0x10B5800` | 11 | 北斗有情破顔拳 (Toki) | HOKUTO UJOU HAGANKEN |
+| `0x31D8000` | 0 | いてえよ～!! (Heart) | IT HUUURTS!! |
+| `0x15E6800` | 2-14 | Jagi's 俺の名を言ってみろ！, the five answers and his replies | Go on... say my name!, JAGI / JIAGI / SHAGI / JAJI / ZYAGI, ... |
+| `0x377C800` | 5 | 我が生涯に一片の悔い無し (Raoh, ending) | I have no regrets in my life! |
+| `0x377C800` | 7, 8 | ending narration | Long ago, men fought... |
+
+Three looks: flat colours with an outline (banners, stamps, Jagi; the
+outline width and each row's colours are measured), shiny letters in a
+soft glow (Toki's HAGANKEN and Heart's, 8-bit with ~250 colours: the glow
+is what can be reached from outside without crossing a sharp colour step,
+the letters the rest; colours are measured by distance inside and outside
+the letters and the new picture is mapped back to the palette), and black
+brush ink (the ending, 4-bit; drawn anti-aliased with see-through steps of
+the ink colour in the palette). Each picture keeps its tile count.
+
+Left as they are: the stage cards (リンの村 above LIN'S VILLAGE, 聖帝十字陵
+above PYRAMID, ...) and the character profiles before a fight (each move's
+romaji name, its kanji, its command) show the Japanese next to the English
+in the arcade's own overseas design. Ranking, name entry, survival results,
+continue and game over are English in overseas mode.

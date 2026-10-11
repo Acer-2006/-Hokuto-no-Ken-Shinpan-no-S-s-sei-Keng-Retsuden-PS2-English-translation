@@ -11,9 +11,11 @@ import struct
 import numpy as np
 from PIL import Image, ImageDraw
 
+import callouts
 import fonts
 import memcard
 import notices
+import quotes
 import smallfont
 import souther
 import staffroll
@@ -131,10 +133,15 @@ def replacements(buf):
     yield from memcard.replacements(buf)
     yield from ui.replacements(buf)
     yield from staffroll.replacements(buf)
-    banks, edits = souther.changes(buf)
-    yield from edits
+    # these change pictures in the same banks, which are packed again once
+    banks = {}
+    for changes, edits in (souther.changes(buf), quotes.changes(buf), callouts.changes(buf)):
+        yield from edits
+        for bank, new in changes.items():
+            assert not set(new) & set(banks.get(bank, {})), f'bank {bank:#x}: an entry is changed twice'
+            banks.setdefault(bank, {}).update(new)
     for bank, new in banks.items():
-        yield from texh.rebuild(buf, bank, new, f'SOUTHER bank {bank:#x}')
+        yield from texh.rebuild(buf, bank, new, f'bank {bank:#x}')
 
 
 # --- training mode command lists ---------------------------------------------

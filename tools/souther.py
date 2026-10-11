@@ -13,6 +13,10 @@ Two styles are names centred on a fixed-size bar. There the bar background
 (rows that repeat every 2 pixels) is rebuilt under the old lettering, and S +
 OUTHER (the pixels that differ from each bar's background) are drawn centred
 where the old name was.
+
+The VS screen's big names are spelled letter by letter (TEXH 0x4DFA800
+entry 40 holds K E N S H I R O D M Y G J U T A) from a table of 10-byte
+names in the program; patch() changes that one.
 """
 import struct
 
@@ -40,6 +44,16 @@ BARS = [
     ((0x50AB800, 51), (0x50AB800, 47), 0.4, 104, 116, 27),   # continue
 ]
 EDGE = 4             # pixels of a bar's slanted left end before its background
+
+VA_BASE, FILE_BASE = 0x100000, 0x80
+VS_NAME = 0x2CBE36   # THOUTHER in the VS screen's name table (10 bytes each)
+
+
+def patch(prog):
+    """SOUTHER in the VS screen's name table of the program image `prog`."""
+    o = VS_NAME - VA_BASE + FILE_BASE
+    assert bytes(prog[o:o + 10]) == b'THOUTHER\0\0', 'VS name table not found'
+    prog[o:o + 10] = b'SOUTHER'.ljust(10, b'\0')
 
 
 def _canvas(buf, texh_off, index):
