@@ -76,26 +76,6 @@ def wrap(text, font, width=WIDTH):
     return lines
 
 
-def _cells(ink, tw, th, n):
-    """Positions for n tiles of tw x th covering every ink pixel: the grid
-    offset needing the fewest tiles, spare tiles next to the text."""
-    ys, xs = np.nonzero(ink)
-    best = None
-    for gy in range(max(0, ys.min() - th + 1), ys.min() + 1):
-        for gx in range(max(0, xs.min() - tw + 1), xs.min() + 1):
-            cells = sorted({((y - gy) // th, (x - gx) // tw) for y, x in zip(ys, xs)})
-            if best is None or len(cells) < len(best[0]):
-                best = (cells, gx, gy)
-    cells, gx, gy = best
-    if len(cells) > n:
-        return None
-    rows = max(r for r, _ in cells) + 1
-    cols = max(c for _, c in cells) + 1
-    spare = [(r, c) for r in range(rows + n) for c in range(cols) if (r, c) not in cells]
-    cells = cells + spare[:n - len(cells)]
-    return [(gx + c * tw, gy + r * th) for r, c in cells]
-
-
 def message_pixels(entry, text):
     """(index image, new tile positions) for a message entry."""
     tiles = entry['tiles']
@@ -112,7 +92,7 @@ def message_pixels(entry, text):
         ink = np.asarray(im) > 127
         if ink[-1].any() or ink[:, -1].any():
             continue
-        cells = _cells(ink, tw, th, len(tiles))
+        cells = texh.cover(ink, tw, th, len(tiles))
         if cells:
             break
     else:

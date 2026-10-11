@@ -4,7 +4,8 @@ usage: build_iso.py [--unlock-history] original.iso out.iso [translation_dir]
 
 Copies the ISO, then patches it in place (file sizes and positions don't
 change):
-  - SLPM_666.60: overseas (English) mode on, plus all translated text
+  - SLPM_666.60: overseas (English) mode on, plus all translated text and
+    the corrected arcade staff credits (credits.py)
   - DATA/HK_B.BIN: letter-pair tiles added to the blank part of the font,
     and English versions of Japanese text drawn in textures (images.py)
 
@@ -20,6 +21,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from iso_list import list_files
 from insert_text import patch_program
 from pairfont import HalfWidthFont, FONT_GLYPHS
+import credits
 import images
 
 ELF = 'SLPM_666.60'
@@ -70,6 +72,7 @@ def main():
     patches = {**CODE_PATCHES, **(UNLOCK_HISTORY if unlock else {})}
     for va, word in patches.items():
         struct.pack_into('<I', prog, va - VA_BASE + FILE_BASE, word)
+    credits.patch(prog)
     assert len(prog) == elf_size
 
     font = HalfWidthFont()
@@ -85,6 +88,9 @@ def main():
         del hk_b
         mm.close()
     print(f'images: {len(edits)} patches')
+    spans = sorted((off, off + len(data), desc) for off, data, desc in edits)
+    for (_, end, a), (start, _, b) in zip(spans, spans[1:]):
+        assert start >= end, f'two image edits overlap: {a} / {b}'
 
     copy_iso(src, dst)
     with open(dst, 'r+b') as f:

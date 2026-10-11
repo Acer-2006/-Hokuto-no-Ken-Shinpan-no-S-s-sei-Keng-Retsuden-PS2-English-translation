@@ -15,7 +15,10 @@ import fonts
 import memcard
 import notices
 import smallfont
+import souther
+import staffroll
 import texh
+import ui
 
 BOLD = fonts.SANS_BOLD       # its Latin matches the game's gothic
 
@@ -126,6 +129,12 @@ def replacements(buf):
     yield from command_list_replacements(buf, names)
     yield from notices.replacements(buf)
     yield from memcard.replacements(buf)
+    yield from ui.replacements(buf)
+    yield from staffroll.replacements(buf)
+    banks, edits = souther.changes(buf)
+    yield from edits
+    for bank, new in banks.items():
+        yield from texh.rebuild(buf, bank, new, f'SOUTHER bank {bank:#x}')
 
 
 # --- training mode command lists ---------------------------------------------

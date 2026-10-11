@@ -9,6 +9,7 @@ from PIL import ImageFont
 
 DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'fonts')
 
+SANS_REGULAR = os.path.join(DIR, 'NotoSansCJKjp-Regular-Latin.otf')
 SANS_BOLD = os.path.join(DIR, 'NotoSansCJKjp-Bold-Latin.otf')
 SERIF_SEMIBOLD = os.path.join(DIR, 'NotoSerifCJKjp-SemiBold-Latin.otf')
 SERIF_BOLD = os.path.join(DIR, 'NotoSerifCJKjp-Bold-Latin.otf')

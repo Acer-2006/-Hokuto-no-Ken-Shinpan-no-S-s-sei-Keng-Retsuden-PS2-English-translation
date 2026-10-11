@@ -329,3 +329,66 @@ def repack(texh_off, tiles, datas, rects=None, what=''):
     if start + len(blob) > end:
         raise ValueError(f'{what} grew by {start + len(blob) - end} bytes')
     yield start, bytes(blob).ljust(end - start, b'\0'), f'{what} ({len(tiles)} tiles)'
+
+
+def rebuild(buf, texh_off, new, what=''):
+    """Edits that give some entries of a bank new tiles ({entry index:
+    [(tile data, (x0, y0, x1, y1)), ...]}, one per tile record; the tiles may
+    change size) and pack the whole bank again. If the new tiles take more
+    room than the old ones, other pictures of the bank are encoded again,
+    biggest first, until everything fits: this encoder packs a little
+    smaller than the one the game was made with."""
+    tiles, datas, rects, others = [], [], [], []
+    for entry in entries(buf, texh_off):
+        for k, t in enumerate(entry['tiles']):
+            tiles.append(t)
+            if entry['index'] in new:
+                data, rect = new[entry['index']][k]
+                w, h = rect[2] - rect[0], rect[3] - rect[1]
+                if (w, h) != (t['w'], t['h']):
+                    yield t['record'] + 0x14, struct.pack('<2H', w, h), f'{what} tile size'
+            else:
+                data = bytes(buf[t['data']:t['data'] + t['size']])
+                rect = (t['x'], t['y'], t['x'] + t['w'], t['y'] + t['h'])
+                others.append(len(datas))
+            datas.append(data)
+            rects.append(rect)
+    over = sum(map(len, datas)) - sum(t['size'] for t in tiles)
+    for i in sorted(others, key=lambda i: -len(datas[i])):
+        if over <= 0:
+            break
+        old = datas[i]
+        has_pal, bpp, _, _, _, _, mode = struct.unpack_from('<7H', old, 2)
+        if mode == 3:
+            continue
+        pal = old[16:16 + (4 << bpp)] if has_pal & 1 else b''
+        px, _ = pixels(old)
+        again = compress(px, bpp, pal)
+        if len(again) < len(old):
+            over -= len(old) - len(again)
+            datas[i] = again
+    yield from repack(texh_off, tiles, datas, rects, what)
+
+
+def cover(ink, tw, th, n):
+    """Positions for n tiles of tw x th covering every ink pixel: the grid
+    offset needing the fewest tiles, spare tiles next to the text."""
+    ys, xs = np.nonzero(ink)
+    best = None
+    for gy in range(max(0, ys.min() - th + 1), ys.min() + 1):
+        # the ink's columns in each row of tiles
+        rx = np.unique(((ys - gy) // th) * 65536 + xs)
+        ry, rx = rx // 65536, rx % 65536
+        for gx in range(max(0, xs.min() - tw + 1), xs.min() + 1):
+            k = len(np.unique(ry * 65536 + (rx - gx) // tw))
+            if best is None or k < best[0]:
+                best = (k, gx, gy)
+    _, gx, gy = best
+    cells = sorted({((y - gy) // th, (x - gx) // tw) for y, x in zip(ys, xs)})
+    if len(cells) > n:
+        return None
+    rows = max(r for r, _ in cells) + 1
+    cols = max(c for _, c in cells) + 1
+    spare = [(r, c) for r in range(rows + n) for c in range(cols) if (r, c) not in cells]
+    cells = cells + spare[:n - len(cells)]
+    return [(gx + c * tw, gy + r * th) for r, c in cells]

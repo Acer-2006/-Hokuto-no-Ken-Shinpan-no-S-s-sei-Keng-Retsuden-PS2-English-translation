@@ -5,6 +5,7 @@ same result whatever is installed on the computer.
 
 | File | From | Licence |
 |---|---|---|
+| `NotoSansCJKjp-Regular-Latin.otf` | Noto Sans CJK JP Regular 2.004 | SIL OFL 1.1 (`OFL.txt`) |
 | `NotoSansCJKjp-Bold-Latin.otf` | Noto Sans CJK JP Bold 2.004 | SIL OFL 1.1 (`OFL.txt`) |
 | `NotoSerifCJKjp-SemiBold-Latin.otf` | Noto Serif CJK JP SemiBold 2.002 | SIL OFL 1.1 (`OFL.txt`) |
 | `NotoSerifCJKjp-Bold-Latin.otf` | Noto Serif CJK JP Bold 2.002 | SIL OFL 1.1 (`OFL.txt`) |

@@ -176,4 +176,4 @@ SW027	0x1fbba0	there's not enough space!\n
 SW028	0x1fbbc0	all saved, no problems at all!\n
 SW029	0x1fbbf0	makin' your save data~\n
 SW030	0x1fbc10	the save data is all broken...\n
-UI001	0x1fb380	Move        Text ON/OFF             Zoom-       Zoom+     Back
+UI001	0x1fb380	Move         Text ON/OFF            Zoom-       Zoom+     Back

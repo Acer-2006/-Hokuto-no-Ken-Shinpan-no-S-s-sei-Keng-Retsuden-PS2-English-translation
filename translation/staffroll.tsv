@@ -1,0 +1,265 @@
+Page	Line	Style	English	Note
+# Page: picture 0-64 of the PS2 staff roll. Line: the line of text on that page, counted row by row from the top,
+# left to right; +N/-N moves the new line N pixels right/left. Style: name (default), head, title, subtitle, notice.
+# Names: as Arc System Works romanized them in the arcade credits (tools/credits.py), spelled plainly (no macrons,
+# given name first); for the PS2 port staff, from their credits in other games. Lines not listed stay as they are.
+1	1-38		Kenshiro	
+1	2+25		Kunihiro Kawamoto	
+1	3-38		Raoh	
+1	4+25		Kenji Utsumi	
+1	5-38		Toki	
+1	6+25		Takaya Hashi	
+1	7-38		Jagi	
+1	8+25		Koji Totani	
+1	9-38		Shin	
+1	10+25		Toshio Furukawa	
+1	11-38		Rei	
+1	12+25		Isshin Chiba	
+2	1-38		Juda	
+2	2+25		Bin Shimada	
+2	3-38		Souther	
+2	4+25		Banjo Ginga	
+2	5-38		Heart	
+2	6+25		Shozo Iizuka	
+2	7-38		Mamiya	
+2	8+25		Toshiko Fujita	
+2	9-38		Dagar	
+2	10+25		Yusaku Yara	
+2	11-38		Komaku	
+2	12+25		Shigeru Chiba	
+3	1-38		Judge	
+3	2+25		Mick Bond	
+3	3-38		Narration	
+3	4+25		Banjo Ginga	
+3	5+25		Shigeru Chiba	
+3	6+25		Mick Bond	
+4	1-38		Lin	
+4	2+25		Miwa Kozuki	
+4	3-38		Bat	
+4	4+25		Ayumi Tsunematsu	
+4	5-38		Diamond	
+4	6+25		Riichi Nishimoto	
+4	7-38		Spade	
+4	8+25		Naotsugu Yoneda	
+5	2		Hideyuki Anbe	
+6	2		Hideyuki Anbe	
+7	1		Hideyuki Anbe	
+7	3		Masashige Kazuhito	
+7	4		Hideyuki Anbe	
+8	2		Hideto Ota	
+8	3		Masashige Kazuhito	
+8	4		Hayato Kodama	
+8	5		Satoshi Takase	
+8	6		Atsushi Sasano	
+8	7		Hayato Kodama	
+8	8		Takayuki Okada	
+8	9		Hideyuki Anbe	
+9	1		Masashige Kazuhito	
+9	2		Satoshi Takase	
+9	3		Takayuki Okada	
+10	1		Hideto Ota	
+10	3		Hayato Kodama	
+10	5		Hideyuki Anbe	
+11	2		Kazunori Taguchi	
+12	1		Kazunori Taguchi	
+12	3		Hideyuki Anbe	
+13	1-30		Eriko Takahashi	
+13	2+30		Aoi Ito	
+13	3-30		Naoki Sawakawa	
+13	4+30		Yoshihiro Kimura	
+13	5-30		Teppei Yamada	
+13	6+30		XELFLEX	
+13	7-30		Nobuyuki Kuramochi	
+13	8+30		Hiroshi Ichikawa	
+13	9-30		Satoru Nakamura	
+13	10+30		Tomonori Takaku	
+13	11-30		Katsuki Mukai	
+14	1		Naoki Sawakawa	
+14	2		Ayami Yamamuro	
+14	3		Kazuo Yorikane	
+14	5		Katsuki Mukai	
+14	6		Masatake Uejima	
+15	1		Kazushige Toyosawa	
+15	3		Kazushige Toyosawa	
+15	4		Hiroaki Masuzawa	
+15	5		Ayami Yamamuro	
+15	6		Masatake Uejima	
+16	1-30		Kazushige Toyosawa	
+16	2+30		Naoki Sawakawa	
+16	3-30		Satoru Nakamura	
+16	4+30		Ayami Yamamuro	
+16	5-30		Hiroaki Masuzawa	
+16	6+30		Masatake Uejima	
+16	7-30		Katsuki Mukai	
+17	1		Eriko Takahashi	
+17	3		Eriko Takahashi	
+17	4		Aoi Ito	
+17	5		Masatake Uejima	
+18	1		Eriko Takahashi	
+18	3		Ikumi Hisatsune	
+18	4		Kazunori Taguchi	
+19	1		Ikumi Hisatsune	
+19	2		Aoi Ito	
+19	3		Kazunori Taguchi	
+20	1		Kazunori Taguchi	
+20	2		Ayami Yamamuro	
+20	3		Katsuki Mukai	
+21	1		Toshimichi Mori	
+22	2		Junichi Hayama	
+23	2		Kazuhiko Yokota	
+23	3		Junichi Hayama	
+23	4		Studio Takuranke	
+23	5		Masahiro Kurio	
+23	6		Hiroyuki Yamada	
+23	7		Naoki Hisatsune	
+23	8		Yoichi Mitsui	
+23	9		Kohei Hashimoto	
+23	10		Yoshihiro Sugai	
+24	0	head	ANIMATION INBETWEENER	
+24	2		Toshimi Tanaka	
+24	3		Hiroko Hashimoto	
+24	4		Kaori Yamasaki	
+24	5		Rie Omori	
+25	1		Studio PEACOCK	
+25	2		Tomoki Oda	
+26	1-16		Studio PEACOCK	
+26	2+16		Hiroaki Uchiumi	
+26	3-16		Masatoshi Sasaga	
+26	4+16		Kazuya Adachi	
+26	5-16		Mariko Sugiki	
+26	6+16		Nozomi Kawai	
+26	7-16		Machiko Komata	
+26	8+16		Taichi Sasaki	
+26	9-16		Takakazu Baba	
+26	10+16		Fumihiro Maruno	
+26	11-16		Shota Kimoto	
+26	12+16		Jun Ishiwatari	
+27	1		E.M.S. Co., Ltd.	
+27	2		Akiko Kato	
+27	3		Takao Yoshiba	
+27	4		Happy Happening Co., Ltd.	
+27	5		Dreams Co., Ltd.	
+27	6		Masaki Kamano	
+27	7		Kaori Takeuchi	
+28	2		Junichi Hayama	
+29	1		Studio PEACOCK	
+29	2		Setsu Osada	
+29	3		Machiko Komata	
+29	5		Naoyuki Fukuda	as in the arcade credits (some anime databases give Naomasa)
+30	1		Studio PEACOCK	
+30	2		Naoto Uemura	
+30	4		Toru Suzuki	
+31	1		KUSANAGI, Inc.	
+31	2		Hideyasu Narita	
+31	3		Tadashi Iwasa	
+32	1		Nobuhito Sue	
+32	3		Ayu Kawamoto	
+33	1		Sadahiko Tanaka	
+33	2		Yasunori Kondo	as in the arcade credits (some anime databases give Yasutaka)
+33	4		Yoji Nakaza	
+34	3		Studio PJ	
+34	4		Tatsuo Nishizono	
+34	6		Kennosuke Suemura	
+34	7		Hiroshi Ebihara	
+35	1		Osamu Aoki	
+35	2		Atsuya Matsuo	
+35	4		Kennosuke Suemura	
+36	1		Hajime Takakuwa	
+36	3		Hideyuki Anbe	
+37	1		Takayuki Yokoyama	
+37	2		Takanobu Otani	
+37	3		Shimuya Yanagisawa	
+38	2		Yuki Hirano	
+38	3		Norio Ichinohe	
+38	4		Tsuyoshi Iino	
+38	5		Hiroshi Tsujino	
+38	6		Wataru Yanagisawa	
+38	7		Yohei Kato	
+39	1		Masaru Obayashi	
+39	2		Hiroyuki Kito	
+39	4		Norihito Fujii	
+40	2		Yuki Takahashi	
+40	3		Kaoru Uno	
+40	4		Tsutomu Idera	
+40	5		Yusuke Kiriyama	
+40	6		Taku Sasahara	
+41	1		Mizuki Marui	
+41	2		Naoki Oyama	
+41	3		Shigeyuki Sakakibara	
+41	4		Ryuichi Harada	
+41	5		Akira Morimoto	
+41	6		Ken Zankai	
+42	4		Studio PEACOCK	
+43	2		KUSANAGI, Inc.	
+43	3		Studio Takuranke	
+43	4		Hayashi Co., Ltd.	
+43	5		E.M.S. Co., Ltd.	
+44	1		Dreams Co., Ltd.	
+44	2		Happy Happening Co., Ltd.	
+44	3		Studio PJ Co., Ltd.	
+44	4		HALF H·P STUDIO Co., Ltd.	
+45	2		Kunio Sasayama	
+45	4		Koki Sadamori	
+46	2		Minoru Kidooka	
+47	2		Hideyuki Anbe	
+47	3		Kazunori Taguchi	
+48	0	title	Fist of the North Star	
+48	1	subtitle	Twin Blue Stars of Judgment: Kengo Retsuden	
+49	2		Takayuki Ideriha	
+50	1		Kenichi Suzuki	
+50	2		Satoshi Takase	
+50	3		Yuki Kawakami	
+50	4		Satoru Inoue	reading not confirmed
+51	1		Naoki Sawakawa	
+51	2		Kazunori Taguchi	
+51	3		Tomoyasu Sakano	reading not confirmed
+51	4		Hirotsugu Harada	reading not confirmed
+52	1		Hideyuki Anbe	
+52	3		Koki Sadamori	
+53	1		Minoru Kidooka	
+54	0	head	ENDING (CONSUMER VER.)	
+54	1		"Namida (Instrumental)"	
+54	2		Composed by Ayumi Nakamura / George Kamata	
+54	3		Arranged by George Kamata	
+55	2		Kazunori Yagi	
+55	3		Nobuyuki Inoue	reading not confirmed
+56	1		Yoshihiro Sakuta	
+56	2		Takashi Nishimura	
+56	3		Makoto Ota	
+57	1		Junichi Shimizu	
+57	2		Akira Nishikawa	
+57	3		Hiroyuki Miyano	
+57	4		Kazuhiko Morii	
+57	5		Yuki Takahashi	
+57	6		Ayaki Onodera	
+58	2		Akira Nomoto	
+58	3		Mitsuru Takahashi	
+58	4		Toru Yasuda	
+58	5		Ikuo Ishizaka	
+58	6		Hiroshi Iino	reading not confirmed
+58	7		Nobuaki Okamoto	
+58	8		Ikuo Ishizuka	reading not confirmed
+58	9		Kensuke Nakamura	
+58	10		Mitsuaki Sugibayashi	
+59	1		Yasushi Yamashita	
+59	2		Naoko Ooka	
+59	3		Tetsuo Shinyu	
+59	4		Takeshi Hiratsuka	
+59	5		Rie Kondo	reading not confirmed
+59	6		Ryo Yokokawa	
+60	1		Kunio Sasayama	
+60	2		Norihito Fujii	
+60	3		Enterbrain, Inc.	
+60	4		Hayato Kikuya	reading not confirmed
+60	5		Hideki Kimura	reading not confirmed
+60	6		Motoki Ichino	reading not confirmed
+61	1		HALF H·P STUDIO Co., Ltd.	
+61	2		Wave Master, Inc.	
+61	3		Hiroshi Murasaki	reading not confirmed
+61	4		Hiroki Furuya	reading not confirmed
+62	0	head	CONTENT LICENSING	
+62	1		North Stars Pictures, Inc.	
+63	1		Hiroshi Utsumi	
+63	3		Shigeyuki Sakakibara	
+63	5		Hiroyuki Miyazaki	
+64	0	notice	© Buronson & Tetsuo Hara/NSP 1983, Approved No. GA-307	

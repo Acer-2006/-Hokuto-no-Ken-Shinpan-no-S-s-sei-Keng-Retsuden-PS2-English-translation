@@ -179,3 +179,46 @@ Each 64×64 tile is compressed. Tile header: `u32 0x88, u16 8 (bpp), u16 w,
 u16 h, u16 w, u16 h, u16 0`, then a bitstream. The decompressor is not found
 yet. `0x25F230` only fixes up pointers when a bank is loaded, and `0x2BFA00`
 is input code, not the decompressor.
+
+## Scenes
+
+Scene names (debug table at `0x2E6800`, one pointer per scene id): 0 Start,
+1 GameMain, 4 CardLoad, 5 CardSave, 7 CharaSelect, 8 VS, 9 ContinueGameOver,
+10 LogoDisp, 13 Opening, 14 Title, 15 Ranking, 16 Ending, 17 StaffRoll,
+18 Warning, 20 EndingCompanyLogo, 21-23 Load/Save/Album, 25 OptionMode.
+`0x281A40(id)` changes scene. For testing, `0x2837B8` (`li a0, 0xD`: the
+title screen's idle jump to the Opening) can be changed to another id, e.g.
+`0x11` to see the staff credits right after boot.
+
+## The opening in overseas mode
+
+The overseas opening shows English name cards ("SOUTHER / voice actor:
+Banjo Ginga") and "Fist Of The North Star" instead of the Japanese theme
+song captions and the 世紀末救世主伝説 card; those textures are still on the
+disc but never drawn.
+
+## Staff rolls
+
+There are two.
+
+**Arcade staff credits** (scene 17, HISTORY: "Arcade Version Staff
+Credits"): text in the program, drawn line by line. Two tables of 611 line
+pointers, Japanese at `0x2E4FD0` and English at `0x2E5960` (chosen by the
+overseas flag); lines are Shift-JIS full-width, `＠` starts each column of a
+cast line, `0x2F5500` is an empty line. The English is the arcade overseas
+release's, with Arc System Works' own romanization of every name (the best
+source for the readings; some lines have typos, family-name-first or
+all-caps names). The English names' strings are at `0x2F6AA0`-`0x2F7D50`
+and only this table points there; `tools/credits.py` repacks them with the
+lines from `translation/credits.tsv`.
+
+**PS2 staff roll** (GIOT resource 0, TEXH `0x6212000`): 65 pictures of
+640x256, white Mincho text with a 2-pixel black outline (bank palette 7:
+0 see-through, 6 black, 1-5 and 7-15 greys up to white), tiles only where
+there is text. Pages 0-47 repeat the arcade staff, 48-64 add the PS2 port's
+(Arc System Works and Sega). Entries 65-103 are the backgrounds and
+decorations (128x128 8-bit tiles, also 128x32, 8x256 and 128x8 4-bit ones).
+`tools/staffroll.py` cuts each page into lines, redraws the listed ones and
+lays the tiles out again (128x64 tiles where 64x64 ones are too few), then
+packs the bank again, re-encoding other pictures of the bank if the
+English takes more room.
