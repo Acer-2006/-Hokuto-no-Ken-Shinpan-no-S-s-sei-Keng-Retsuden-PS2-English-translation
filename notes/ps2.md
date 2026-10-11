@@ -122,6 +122,27 @@ Things that matter when re-encoding:
   copies must not reach back before the start
 - `tools/images.py` makes the English replacements at build time and checks
   each one fits in the original's space
+- 8bpp tiles carry their own 256-colour palette in the GS's CSM1 order
+  (entries 8–15 and 16–23 of every 32 swapped); `tools/notices.py` writes new
+  palettes for the tiles it changes
+- a tile record's `x0 y0 x1 y1` is where the game draws that tile inside the
+  entry, so tiles can be moved (the English banners use the full width)
+
+## HISTORY unlock notices
+
+State machine of the HISTORY screen: dispatcher at `0x2A9560`, jump table at
+`0x2FB370` (12 states). After a mission (state 3, `0x2A8A90`) the game counts
+the cleared flags (`0x2A6C50`, 77 missions):
+
+- all 77 → state 4 (`0x2A8930`): banner 143 「拳王降臨」 over the glow 142,
+  then notice 141 (Ken-Oh playable)
+- 39 or more and the save's `+0x172` still 0 → sets it, state 5 (`0x2A87E0`):
+  banner 140 「50%達成」, then notice 139 (arcade staff credits)
+- otherwise state 6 (the timeline)
+
+Coming in from the main menu, state 2 (`0x2A8BE0`) goes straight to 6; for
+testing, changing its `li v1, 6` at `0x2A8C0C` to 5 or 4 shows a notice every
+time HISTORY is entered.
 
 ### Old notes
 

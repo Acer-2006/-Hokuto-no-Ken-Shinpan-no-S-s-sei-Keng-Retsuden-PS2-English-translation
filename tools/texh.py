@@ -310,3 +310,21 @@ def _compress(pixels, bpp, palette, mode3):
         body = flags + data
     tile = head + palette + body
     return tile + bytes(-len(tile) % 16)
+
+
+def repack(texh_off, tiles, datas, rects=None, what=''):
+    """Edits that store `datas` back to back where `tiles` were, and point
+    their records at them (optionally with new rectangles)."""
+    order = sorted(range(len(tiles)), key=lambda i: tiles[i]['data'])
+    start = tiles[order[0]]['data']
+    end = max(t['data'] + t['size'] for t in tiles)
+    blob = bytearray()
+    for i in order:
+        rel = start + len(blob) - texh_off
+        yield tiles[i]['record'] + 4, struct.pack('<III', rel, rel, len(datas[i])), f'{what} tile record'
+        if rects:
+            yield tiles[i]['record'] + 0x18, struct.pack('<4h', *rects[i]), f'{what} tile position'
+        blob += datas[i]
+    if start + len(blob) > end:
+        raise ValueError(f'{what} grew by {start + len(blob) - end} bytes')
+    yield start, bytes(blob).ljust(end - start, b'\0'), f'{what} ({len(tiles)} tiles)'

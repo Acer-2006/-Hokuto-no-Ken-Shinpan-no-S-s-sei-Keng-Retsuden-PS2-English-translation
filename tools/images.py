@@ -9,12 +9,14 @@ import os
 import struct
 
 import numpy as np
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 
+import fonts
+import notices
 import smallfont
 import texh
 
-BOLD = '/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc'   # Latin matches the game's gothic
+BOLD = fonts.SANS_BOLD       # its Latin matches the game's gothic
 
 HISTORY = 0x5EC9000      # HISTORY mode screen resource (FARC offset in HK_B.BIN)
 
@@ -51,10 +53,10 @@ def text_coverage(text, cap, max_width, height, top, ss=4):
     """Anti-aliased coverage (0..1) of `text` with cap height `cap`,
     squeezed horizontally to at most `max_width` pixels."""
     size = cap
-    font = ImageFont.truetype(BOLD, size * ss)
+    font = fonts.load(BOLD, size * ss)
     while font.getbbox('H')[3] - font.getbbox('H')[1] < cap * ss:
         size += 1
-        font = ImageFont.truetype(BOLD, size * ss)
+        font = fonts.load(BOLD, size * ss)
     bb = font.getbbox(text)
     w = bb[2] - bb[0]
     im = Image.new('L', (w + 2 * ss, height * ss), 0)
@@ -121,6 +123,7 @@ def replacements(buf):
     names = movelist(os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                   '..', 'translation', 'movelist.tsv'))
     yield from command_list_replacements(buf, names)
+    yield from notices.replacements(buf)
 
 
 # --- training mode command lists ---------------------------------------------
@@ -138,7 +141,7 @@ COMMAND_LISTS = [            # (TEXH offset in HK_B.BIN, character in movelist.t
     (0x25EE800, 'JUDA'), (0x261D800, 'JUDA'), (0x2BB8000, 'SOUTHER'),
     (0x3237000, 'HEART'), (0x3693800, 'MAMIYA'),
 ]
-SERIF = '/usr/share/fonts/opentype/noto/NotoSerifCJK-Bold.ttc'
+SERIF = fonts.SERIF_BOLD
 CL_ROW0, CL_PITCH, CL_BAND = 8, 32, 26
 CL_TEXT, CL_BG, CL_AA = 28, 31, ((0.5, 28),)       # crisp white, like the originals
 CL_RIGHT = 372                   # names stay left of the separator's step
@@ -175,9 +178,7 @@ def _cl_text_start(band):
 
 
 def _cl_coverage(text, width, ss=4):
-    font = ImageFont.truetype(SERIF, 40 * ss)
-    hb = font.getbbox('H')
-    font = ImageFont.truetype(SERIF, max(1, round(40 * ss * CL_CAP / ((hb[3] - hb[1]) / ss))))
+    font = fonts.cap_sized(SERIF, CL_CAP, ss)
     hb, bb = font.getbbox('H'), font.getbbox(text)
     im = Image.new('L', (bb[2] - bb[0] + 2 * ss, CL_BAND * ss), 0)
     ImageDraw.Draw(im).text((ss - bb[0], CL_BASELINE * ss - hb[3]), text, font=font, fill=255)
@@ -203,6 +204,7 @@ CL_NOTES = {
     ('SHIN', 13): [(439, 475, *_NEAR, 'r')],
     ('SHIN', 14): [(427, 462, 'DEATH STAR', 'SHINING', 'r')],
     ('REI', 9): [(463, 499, *_NEAR, 'r')],
+    ('REI', 10): [(452, 484, 'NEAR WALL', '', 'r')],
     ('JUDA', 11): [(432, 481, 'WHILE', 'GETTING UP', 'r')],
     ('SOUTHER', 7): [_HOUOU], ('SOUTHER', 9): [_HOUOU], ('SOUTHER', 12): [_HOUOU],
     ('SOUTHER', 15): [_HOUOU], ('SOUTHER', 17): [_HOUOU], ('SOUTHER', 20): [_HOUOU],
@@ -219,7 +221,7 @@ CL_BADGES = {('HEART', k): (40, 91, 'OWWW!!', 'ONLY') for k in range(11, 17)}
 def _cl_note(canvas, y0, x0, x1, l1, l2, align, left_limit=CL_NOTE_MIN):
     region = canvas[y0 + 6:y0 + CL_PITCH, x0:x1 + 1]
     region[region == CL_TEXT] = CL_BG
-    for line, dy in ((l1, 9), (l2, 20)):
+    for line, dy in (((l1, 9), (l2, 20)) if l2 else ((l1, 12),)):
         g = smallfont.render(line)
         w = g.shape[1]
         if align == 'r':
@@ -290,21 +292,11 @@ def command_list_replacements(buf, names):
         command_list_rows(canvas, rows, who)
         # re-encode every tile and pack them back to back where the old ones
         # were (the new total is smaller; the records get the new offsets)
-        order = sorted(range(len(tiles)), key=lambda i: tiles[i]['data'])
-        start = tiles[order[0]]['data']
-        end = max(t['data'] + t['size'] for t in tiles)
-        blob = bytearray()
-        for i in order:
-            t, old = tiles[i], olds[i]
+        datas = []
+        for t, old in zip(tiles, olds):
             px = canvas[t['y']:t['y'] + t['h'], t['x']:t['x'] + t['w']]
             bpp, has_pal = struct.unpack_from('<H', old, 4)[0], struct.unpack_from('<H', old, 2)[0]
             mode3 = struct.unpack_from('<H', old, 14)[0] == 3
             pal = old[16:16 + (4 << bpp)] if has_pal & 1 else b''
-            new = texh.compress(px, bpp, pal, mode3=mode3)
-            off = start + len(blob)
-            blob += new
-            rel = off - texh_off
-            yield t['record'] + 4, struct.pack('<III', rel, rel, len(new)), f'{who} tile record'
-        if start + len(blob) > end:
-            raise ValueError(f'{who} command list grew by {start + len(blob) - end} bytes')
-        yield start, bytes(blob).ljust(end - start, b'\0'), f'{who} command list ({len(tiles)} tiles)'
+            datas.append(texh.compress(px, bpp, pal, mode3=mode3))
+        yield from texh.repack(texh_off, tiles, datas, what=f'{who} command list')

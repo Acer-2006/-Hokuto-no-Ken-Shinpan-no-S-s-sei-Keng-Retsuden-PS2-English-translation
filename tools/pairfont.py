@@ -14,9 +14,11 @@ The text keeps its length (2 letters = 2 bytes), lines hold 48 letters, and
 the game's code is unchanged.
 """
 import numpy as np
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 
-FONT_FILE = '/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf'
+import fonts
+
+FONT_FILE = fonts.MONO
 FONT_SIZE = 13            # pixels; DejaVu Sans Mono advance at 13px is 7.8px
 BASELINE = 13             # same baseline as the game's full-width letters
 SS = 4                    # supersampling for anti-aliasing
@@ -44,7 +46,7 @@ def tile_for_code(code):
 
 class HalfWidthFont:
     def __init__(self, path=FONT_FILE, size=FONT_SIZE):
-        self.font = ImageFont.truetype(path, size * SS)
+        self.font = fonts.load(path, size * SS)
         self.cache = {}
 
     def glyph(self, ch):
